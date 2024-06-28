@@ -1,0 +1,526 @@
+:root {
+    /* green_shade */
+    --G1: #010D00;
+    --G2: #0C2605;
+    --G3: #2E590E;
+    --G4: #548C1C;
+    --G5: #8EBF24;
+
+    /* other colours */
+    --C1: #3b9ca3;
+    --C2: #04b556;
+
+    /* gradient colour */
+    --greeting: linear-gradient(to left, var(--G1), var(--G3), var(--G1));
+    --back-button: linear-gradient(to right, var(--G4), var(--G1));
+    --img-bg: radial-gradient(var(--G3)35%, var(--G1), #010d0000);
+}
+@font-face {
+    font-family: bebas;
+    src: url("font/bebas_neue.ttf");
+}
+@font-face {
+    font-family: robo-light;
+    src: url("font/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: robo-bold;
+    src: url("font/Roboto-Bold.ttf");
+}
+@font-face {
+    font-family: robo-italic;
+    src: url("font/Roboto-Italic.ttf");
+}
+@font-face {
+    font-family: roboC;
+    src: url("font/condensed/RobotoCondensed-Regular.ttf");
+}
+@font-face {
+    font-family: roboC-italic;
+    src: url("font/condensed/RobotoCondensed-Italic.ttf");
+}
+@font-face {
+    font-family: roboC-bold;
+    src: url("font/condensed/RobotoCondensed-Bold.ttf");
+}
+@font-face {
+    font-family: roboC-MItalic;
+    src: url("font/condensed/RobotoCondensed-MediumItalic.ttf");
+}
+/* style configuration */
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: var(--G1);
+}
+
+nav {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-evenly;
+    background-color: var(--G1);
+    padding:0 0 0 0;
+    width: 100%;
+}
+nav div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+nav button {
+    width: 100%;
+    background-color: var(--G1);
+    color: white;
+    font-family: robo-bold;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+nav button:hover {
+    border-bottom: var(--G5) solid 1px;
+}
+nav button:nth-child(5):hover {
+    color: red;
+}
+nav div h4 {
+    color: white;
+    font-family: robo-italic;
+    text-align: center;
+    margin: 0;
+    text-wrap: nowrap;
+}
+
+/* class */
+.divForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--G2);
+    padding: 15px;
+    border-radius: 15px;
+}
+.form h2 {
+    font-family: bebas;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.form button {
+    background-color: var(--G1);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-family: robo-bold;
+    width: 100%;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.form button:hover {
+    background-color: var(--G5);
+    color: black;
+}
+.form input {
+    background-color: var(--G1);
+    padding: 10px 20px 10px 20px;
+    text-align: center;
+    font-family: robo-light;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+}
+
+.displayProgram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 80vw;
+    margin: auto;
+}
+.displayProgram h2 {
+    background-color: var(--G3);
+    color: black;
+    padding: 5px 10px 5px 10px;
+    font-family: bebas;
+}
+.displayProgram table tr th {
+    background-color: var(--G4);
+    color: black;
+    padding: 10px;
+    font-family: roboC-bold;
+}
+.displayProgram table tr th:nth-child(1) {
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.displayProgram table tr th:nth-last-child(1) {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.displayProgram table tr td {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-family: roboC-italic;
+    border-bottom: var(--G4) solid 2px;
+    padding: 5px;
+}
+
+.murid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.murid form {
+    background-color: var(--G3);
+    padding: 10px;
+    border-radius: 10px;
+    font-family: roboC-bold;
+    display: flex;
+    align-items: center;
+}
+.murid form input {
+    color: white;
+    text-align: center;
+    outline: none;
+    border: none;
+    padding: 10px;
+    margin: 0 0 0 10px;
+    font-family: robo-italic;
+    border-radius: 10px 0 0 10px;
+    background-color: var(--G1);
+}
+.murid form button {
+    background-color: var(--G2);
+    color: white;
+    font-family: roboC;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.murid form button img {
+    width: 15px;
+}
+.murid form button p {
+    margin: 0;
+    padding: 0;
+}
+.murid div h1 {
+    font-family: roboC-bold;
+    text-align: center;
+    color: white;
+}
+.murid div {
+    background-image: var(--img-bg);
+}
+.murid table {
+    margin: 10px 0 auto 0;
+}
+.murid table tr th {
+    background-color: var(--G4);
+    color: black;
+    font-family: roboC-bold;
+    padding: 10px;
+}
+.murid table tr th:nth-child(1) {
+    border-radius: 10px 0 0 10px;
+}
+.murid table tr th:nth-last-child(1) {
+    border-radius: 0 10px 10px 0;
+}
+.murid table tr td {
+    border-bottom: var(--G4) solid 2px;
+    color: white;
+    font-family: roboC-italic;
+    padding: 10px;
+    text-align: center;
+}
+
+.program {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.program div:nth-child(4) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-family: roboC-bold;
+    text-align: center;
+}
+.program div img {
+    background-image: var(--img-bg);
+}
+.program form:nth-child(3) {
+    background-color: var(--G3);
+    padding: 10px;
+    border-radius: 15px;
+    font-family: roboC-bold;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.program form:nth-child(3) div {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 10px 0 0 0;
+}
+.program form:nth-child(3) div input:nth-child(1) {
+    color: white;
+    text-align: center;
+    outline: none;
+    border: none;
+    padding: 10px;
+    font-family: robo-italic;
+    border-radius: 10px 0 0 10px;
+    background-color: var(--G1);
+}
+.program form:nth-child(3) div input:nth-child(2) {
+    color: white;
+    background-color: var(--G1);
+    padding: 10px;
+    border: none;
+    border-left: solid white 1px;
+    outline: none;
+    font-family: robo-italic;
+    height: 16px;
+}
+input[type='date']::-webkit-calendar-picker-indicator {
+    margin: 0;
+    padding: 0;
+    background-image: url("image/calendar.svg");
+}
+.program form:nth-child(3) div button {
+    background-color: var(--G2);
+    color: white;
+    font-family: roboC;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.program form:nth-child(3) button img {
+    width: 15px;
+}
+.program form:nth-child(3) button p {
+    margin: 0;
+    padding: 0;
+}
+.program table {
+    margin: 10px 0 auto 0;
+    max-width: 90vw;
+}
+.program table tr th {
+    background-color: var(--G4);
+    color: black;
+    font-family: roboC-bold;
+    padding: 10px 2px 10px 2px;
+    white-space: nowrap;
+}
+.program table tr th:nth-child(1) {
+    border-radius: 10px 0 0 10px;
+}
+.program table tr th:nth-last-child(1) {
+    border-radius: 0 10px 10px 0;
+}
+.program table tr td {
+    border-bottom: var(--G4) solid 2px;
+    color: white;
+    font-family: roboC-italic;
+    padding: 5px;
+    text-align: center;
+}
+.program table tr td:nth-child(4) {
+    text-wrap: nowrap;
+}
+.program table tr td input {
+    margin: 0;
+}
+
+.record {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: fit-content;
+    margin: auto;
+}
+.record div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    font-family: roboC-bold;
+}
+.record div img {
+    background-image: var(--img-bg);
+}
+.record table tr th {
+    padding: 10px;
+    font-family: roboC-bold;
+    text-align: center;
+    background-color: var(--G4);
+}
+.record table tr th:nth-child(1) {
+    border-radius: 10px 0 0 0;
+}
+.record table tr th:nth-last-child(1) {
+    border-radius: 0 10px 0 0;
+}
+.record table tr td {
+    color: white;
+    font-family: roboC-MItalic;
+    text-align: center;
+    padding: 10px;
+    border-bottom: white dashed 1px;
+}
+.record button {
+    background-color: var(--G1);
+    border: white solid 2px;
+    color: white;
+    font-family: roboC-bold;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    margin: 10px 0 0 0;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.record button:hover {
+    padding: 15px;
+    background-color: var(--G3);
+    border: var(--G3) 2px solid;
+    border-radius: 10px;
+}
+
+.selectClass {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.selectClass h1 {
+    text-align: center;
+    font-family: bebas;
+    color: white;
+}
+.selectClass div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.selectClass div button {
+    background-color: var(--G4);
+    font-family: roboC-bold;
+    font-size: larger;
+    color: black;
+    padding: 40px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.selectClass div button:hover {
+    background-color: white;
+    border: solid black 1px;
+    padding: 40px 50px 40px 50px;
+}
+
+/* id */
+#greeting {
+    font-family: roboC-bold;
+    color: white;
+    padding: 5px 0 5px 0;
+    background-image: var(--greeting);
+    text-align: center;
+}
+
+#logo {
+    background-color: var(--G3);
+    color: var(--G1);
+    padding: 5px;
+    font-family: bebas;
+    width: fit-content;
+    text-align: center;
+    margin: 0;
+}
+
+#back-button {
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.2s;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: fixed;
+    color: white;
+    font-family: bebas;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#back-button:hover {
+    border-bottom: var(--G4) solid 2px;
+    background-image: var(--back-button);
+    background-position: 0;
+    background-repeat: no-repeat;
+    animation-name: slide-in;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+}
+@keyframes slide-in {
+    0% {
+        background-position: -100px;
+    }
+    100% {
+        background-position: 0;
+    }
+}
+#back-button img {
+    width: 50px;
+}
+
+#logoHTMLcontainer {
+    margin: 10px;
+}
+
+#smallText {
+    background-color: var(--C2);
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: roboC;
+    color: whitesmoke;
+    text-align: center;
+    width: 100%;
+    cursor: default;
+}
