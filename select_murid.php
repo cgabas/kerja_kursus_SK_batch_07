@@ -22,6 +22,12 @@
                 <button onclick="sendCookie('Iltizam')">Iltizam</button>
             </div>
         </div>
+        <hr>
+        <div class="seekAttendance">
+            <h1>Pilihan Lain</h1>
+            <button onclick="window.location='attendance.php'">Lihat Kehadiran Murid</button>
+            <a href="main_page.php">Menu Utama</a>
+        </div>
         <script>
             function sendCookie(name) {
                 document.cookie = "kelas="+name+"; path=/";

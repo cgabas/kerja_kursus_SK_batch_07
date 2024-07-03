@@ -365,6 +365,34 @@ input[type='date']::-webkit-calendar-picker-indicator {
     margin: 0;
 }
 
+.recordMessage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-color: var(--G4);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.recordMessage h1 {
+    color: white;
+    font-family: bebas;
+    text-align: center;
+}
+.recordMessage h3 {
+    color: black;
+    font-family: roboC-bold;
+}
+.recordMessage small {
+    color: black;
+    font-family: roboC-italic;
+}
+.recordMessage ul {
+    padding: 10px;
+}
+.recordMessage ul li {
+    font-family: roboC;
+}
+
 .record {
     display: flex;
     align-items: center;
@@ -437,6 +465,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-flow: row wrap;
 }
 .selectClass div button {
     background-color: var(--G4);
@@ -446,12 +475,44 @@ input[type='date']::-webkit-calendar-picker-indicator {
     padding: 40px;
     border: none;
     cursor: pointer;
+    flex-grow: 1;
     transition: 0.2s;
 }
 .selectClass div button:hover {
     background-color: white;
     border: solid black 1px;
-    padding: 40px 50px 40px 50px;
+}
+
+.seekAttendance {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.seekAttendance h1 {
+    color: white;
+    font-family: bebas;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.seekAttendance button {
+    color: black;
+    font-family: roboC-bold;
+    background-color: var(--G4);
+    font-size: large;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.seekAttendance button:hover {
+    background-color: white;
+    outline: 1px black;
+}
+.seekAttendance a {
+    font-family: roboC;
+    margin: 10px;
 }
 
 /* id */

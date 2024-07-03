@@ -3,6 +3,12 @@
     require_once "config/functions.php";
 
     $func = new globalFunc;
+    
+    session_start();
+    $program = $func -> checkProgram($cDB, $_SESSION['nokp']);
+    // reminder: this function 'setcookie(...)' must be appear before the <html> tag
+    setcookie("program", $program['nama_program']);
+    session_write_close(); // closing session to give navigation.php some functionality
 ?>
 <!-- frontend -->
 <!DOCTYPE html>

@@ -120,6 +120,8 @@
 
         // to list avaliable row in 'murid' table based on what class
         function murid($DB, $v, $vv) { // procedure function
+            // search query passed through the second argument, $v
+            // kelas data passed through the third argument, $vv
             if(empty($v)) {
                 $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
                 if(mysqli_num_rows($result) > 0) {
@@ -350,13 +352,16 @@
             TIME_FORMAT(CURTIME(), '%H:%i') < TIME_FORMAT(masa_tamat, '%H:%m')))
             ) ORDER BY masa_mula DESC";
 
-            $result = mysqli_query($DB, $query); // fix this 🙏🙏
+            $result = mysqli_query($DB, $query);
             if(mysqli_num_rows($result) > 0) {
                 while($data = mysqli_fetch_assoc($result)) {
-                    return [
-                        'nama_program'=>$data['nama_program'],
-                        'kodProgram'=>$data['kodProgram']
-                    ];
+                    if($data['nokp'] === $v) {
+                        // return array
+                        return [
+                            'nama_program'=>$data['nama_program'],
+                            'kodProgram'=>$data['kodProgram']
+                        ];
+                    }
                 }
             }
             return false;
@@ -367,6 +372,8 @@
         checked by the teacher by using a checkbox
         */
         function recordForm($DB, $v, $vv) { // procedure function
+            // nokp data passed through the second argument, $v
+            // kelas data passed through the third argument, $vv
             $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
 
             if(mysqli_num_rows($result) > 0) {
@@ -390,4 +397,33 @@
                 echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
             }
         }
+
+        function saverecord($DB, $nokp, $noic) {
+            // Generate 7 letter code with 'p' as a prefix at front
+            $randC = $this->randCode("p");
+        
+            // Get program code from checkProgram function
+            $program = $this->checkProgram($DB, $nokp)['kodProgram'];
+        
+            // Check if program is valid
+            if ($program === false) {
+                return false;
+            }
+        
+            // Prepare the SQL statement
+            $stmt = $DB->prepare("INSERT INTO kehadiran(kodKehadiran, kodProgram, noic, masa_direkod) VALUES (?, ?, ?, CURTIME())");
+            $stmt->bind_param("sss", $randC, $program, $noic);
+        
+            // Execute the statement and check if successful
+            if($stmt->execute()) {
+                return [
+                    'noic' => $noic,
+                    'kodKehadiran' => $randC,
+                    'masa_direkod' => date("H:i:s")
+                ];
+            } else {
+                return false;
+            }
+        }
+        
     }
