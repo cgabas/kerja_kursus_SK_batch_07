@@ -92,7 +92,8 @@
         matching the current date and will be display at the
         main page(both user and admin)
         */
-        function todaysProgram($DB) { // procedure function
+        function todaysProgram($DB, $s) { // procedure function
+            // $s argument is for switch
             $curDate = date("Y-m-d");
             $result = mysqli_query($DB, "SELECT * FROM program WHERE tarikh='$curDate'");
 
@@ -105,7 +106,13 @@
                 echo "<th>Jam Tamat</th>";
                 echo "<th>Maklumat</th></tr>";
                 while($data = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>".$data['kodProgram']."</td>";
+                    // if true, then the 'kodProgram' will be avaliable to be click
+                    if($s) {
+                        echo "<tr><td><a href=\"#\" onclick=\"seekAttendance(".$data['kodProgram'].")\">".$data['kodProgram']."</a></td>";
+                    }
+                    else {
+                        echo "<tr><td>".$data['kodProgram']."</td>";
+                    }
                     echo "<td>".$data['nama_program']."</td>";
                     echo "<td>".$data['tempat']."</td>";
                     echo "<td>".$this -> timeFormatChange($data['masa_mula'], 'NORMAL')."</td>";
@@ -209,7 +216,10 @@
 
         // listing every program that ever anounced by admin
         function program($DB, $a, $s) { // procedure function
+            // $s(the third argument) will act like a switch
+            // if $s true, a checkbox option will be include when displaying form(for admin)
             if($s) {
+                // check if the search option are empty
                 if(!empty($a['searchNama']) || !empty($a['date'])) {
                     $namaProg = $a['searchNama'];
                     $date = $a['date'];
@@ -398,7 +408,7 @@
             }
         }
 
-        function saverecord($DB, $nokp, $noic) {
+        function saverecord($DB, $nokp, $noic) { // return function
             // Generate 7 letter code with 'p' as a prefix at front
             $randC = $this->randCode("p");
         

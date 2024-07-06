@@ -21,11 +21,6 @@
                 <button onclick="sendCookie('Iltizam')">Iltizam</button>
             </div>
         </div>
-        <script>
-            function sendCookie(name) {
-                document.cookie = "kelas="+name+"; path=/";
-                    location.replace("record.php");
-            }
-        </script>
+        <script type="module" src="/library/progIntervensi-lib.js"></script>
     </body>
 </html>
