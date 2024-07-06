@@ -22,19 +22,38 @@ __English__: This system with the name "__Intervention Program System__" can rec
 Meanwhile, the admin, which is PKHEM, has all the functions of the system provided by the teacher except for recording student attendance. However, the admin has the advantage of the system function compared to the teacher, which is that the admin can edit any program data, students and teachers that have been registered one by one.
 
 ### Installation
-1. Make sure you had these things installed for your computer
 
-- [XAMPP Server]([text](https://www.apachefriends.org/download.html))
-- [Code Editor For Code Editing (I recommend VS code if you want)]([text](https://code.visualstudio.com/download))
+**Target Audience**: This installation guide is designed for beginners who are unfamiliar with server hosting.
 
-2. And then after the installation (XAMPP), open up your XAMPP and click the button that says "Start" on each rows for "Apache" and "MySQL".
-![Example](style/image/XAMPP.JPG "Example")
+1. Ensure you have the following software installed on your computer:
+   - [XAMPP Server](https://www.apachefriends.org/download.html)
+   - [VS Code](https://code.visualstudio.com/download) or your preferred code editor.
 
-3. After that, open up your browser to access the database editor that come with XAMPP "__PhpMyAdmin__". Before accessing it, make sure your XAMPP server is working by typing "localhost/" or "127.0.0.1/" into the link box, and it should display something like this
-![Example1](style/image/PHPMYADMIN.JPG "Apache Working")
+2. Start the Apache and MySQL services in XAMPP:
+   - Open the XAMPP Control Panel.
+   - Click the "Start" button next to "Apache" and "MySQL" modules.
 
-4. If your XAMPP is working, enter this link "localhost/phpmyadmin" or "127.0.0.1/phpmyadmin". Other alternative way is you could just click this button while you where on the page.
-![Example2](style/image/PHPMYADMIN1.JPG "Click the button")
+   ![Start Apache and MySQL](style/image/XAMPP.JPG "XAMPP Control Panel")
 
-5. After accessing the PhpMyAdmin inside your browser, you should see something like this
-![Example3](style/image/PHPMYADMIN2.JPG "PhpMyAdmin")
+3. Verify that XAMPP is running:
+   - Open your web browser and go to `localhost/` or `127.0.0.1/`. You should see the Apache default page, confirming that the server is running.
+
+   ![Apache Running](style/image/PHPMYADMIN.JPG "Apache Default Page")
+
+4. Access PhpMyAdmin:
+   - Navigate to `localhost/phpmyadmin` or `127.0.0.1/phpmyadmin` in your browser, or click the "Admin" button in the XAMPP Control Panel.
+
+   ![PhpMyAdmin](style/image/PHPMYADMIN1.JPG "PhpMyAdmin Login")
+
+5. You should now see the PhpMyAdmin dashboard where you can manage your databases.
+
+   ![PhpMyAdmin Dashboard](style/image/PHPMYADMIN2.JPG "PhpMyAdmin Dashboard")
+
+6. Troubleshooting Tips:
+   - If you encounter issues, consider:
+     - [Installing MySQL Manually](https://www.mysql.com/downloads/)
+     - Reinstalling XAMPP
+     - Restarting your computer
+     - Restarting Apache and MySQL services
+
+   **Note**: For additional help, consult relevant online resources or use tools like ChatGPT for assistance.
