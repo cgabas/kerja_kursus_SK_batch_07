@@ -28,4 +28,13 @@ Meanwhile, the admin, which is PKHEM, has all the functions of the system provid
 - [Code Editor For Code Editing (I recommend VS code if you want)]([text](https://code.visualstudio.com/download))
 
 2. And then after the installation (XAMPP), open up your XAMPP and click the button that says "Start" on each rows for "Apache" and "MySQL".
-![Exp-1](.git/img/XAMPP-1.JPG "Example")
+![Example](style/image/XAMPP.JPG "Example")
+
+3. After that, open up your browser to access the database editor that come with XAMPP "__PhpMyAdmin__". Before accessing it, make sure your XAMPP server is working by typing "localhost/" or "127.0.0.1/" into the link box, and it should display something like this
+![Example1](style/image/PHPMYADMIN.JPG "Apache Working")
+
+4. If your XAMPP is working, enter this link "localhost/phpmyadmin" or "127.0.0.1/phpmyadmin". Other alternative way is you could just click this button while you where on the page.
+![Example2](style/image/PHPMYADMIN1.JPG "Click the button")
+
+5. After accessing the PhpMyAdmin inside your browser, you should see something like this
+![Example3](style/image/PHPMYADMIN2.JPG "PhpMyAdmin")
