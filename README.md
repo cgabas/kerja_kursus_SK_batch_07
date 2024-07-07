@@ -66,4 +66,13 @@ __English__: This system with the name "__Intervention Program System__" can rec
 > [!IMPORTANT]
 > Ensure that you start from the server tab, `Server: 127.0.0.1`, not from the `Database` or `Table` tabs.
 
-1. Download the MySQL code to create the database and tables for the sys
+1. Download the MySQL code to create the database and tables for the system. You can choose from the links below; both options will work:
+   - [Database + tables](https://drive.google.com/drive/folders/17mYzm09Z2iTto87RjVU7fPn2zCUCwq5_?usp=sharing) only, no data included
+   - [Database + tables + dummy data](https://drive.google.com/file/d/11H3kvz6VM49Ag_Avni7cltcJDmDrO4DE/view?usp=sharing), if you don't want to fill out the data manualy
+
+2. After downloading, unzip the folder and you should get a file called`sistem-program-intervensiDB.sql`, and make sure you know where the file's location either.
+
+3. Open up "phpMyAdmin" and click on the Import tab.
+   ![Import DB](style/image/PHPMYADMIN3.JPG "Choose your file")
+   > [!NOTE]
+   > You also can just leave it like that, `.zip`, and import the zip file itself.
