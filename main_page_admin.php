@@ -38,7 +38,7 @@
         <div class="displayProgram">
             <table>
                 <?php
-                    $func -> todaysProgram($cDB);
+                    $func -> todaysProgram($cDB, false);
                 ?>
             </table>
         </div>

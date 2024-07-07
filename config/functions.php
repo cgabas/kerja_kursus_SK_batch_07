@@ -401,6 +401,7 @@
                     echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"".$data['noic']."\"></td></tr>";
                 }
                 echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
+                echo "<p><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
             }
             else {
                 echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";

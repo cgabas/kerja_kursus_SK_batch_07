@@ -6,9 +6,14 @@
     
     session_start();
     $program = $func -> checkProgram($cDB, $_SESSION['nokp']);
-    // reminder: this function 'setcookie(...)' must be appear before the <html> tag
-    setcookie("program", $program['nama_program']);
-    session_write_close(); // closing session to give navigation.php some functionality
+
+    if($program !== false) {
+        // reminder: this function 'setcookie(...)' must be appear before the <html> tag
+        setcookie("program", $program['nama_program']);
+    }
+
+    // closing session to give navigation.php some functionality
+    session_write_close();
 ?>
 <!-- frontend -->
 <!DOCTYPE html>
@@ -21,6 +26,7 @@
                 <?php
                     // reminder: session_start() was removed because of navigation.php
                     $isExist = $func -> checkProgram($cDB, $_SESSION['nokp']);
+                    
                     if(!$isExist) {
                         echo "<div><img alt=\"Tiada Urusan Program\" src=\"style/image/not-involved.png\">";
                         echo "<h1>Tiada Urusan Program Hari Ini!</h1></div>";
