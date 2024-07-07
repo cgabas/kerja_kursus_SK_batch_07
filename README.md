@@ -20,7 +20,8 @@ __English__: This system with the name "__Intervention Program System__" can rec
 
 ### Installation
 
-> **Note**: This installation guide is designed for beginners who are unfamiliar with server hosting.
+> [!NOTE]
+> This installation guide is designed for beginners who are unfamiliar with server hosting.
 
 1. **Basic Setup**
    - Ensure you have the following software installed on your computer:
@@ -50,15 +51,19 @@ __English__: This system with the name "__Intervention Program System__" can rec
 
    ![PhpMyAdmin Dashboard](style/image/PHPMYADMIN2.JPG "PhpMyAdmin Dashboard")
 
-> **Tip**: If you encounter issues, consider:
-> - [Installing MySQL Manually](https://www.mysql.com/downloads/)
-> - Reinstalling XAMPP
-> - Restarting your computer
-> - Restarting Apache and MySQL services
+> [!TIP]
+> If you encounter issues, consider:
+>   - [Installing MySQL Manually](https://www.mysql.com/downloads/)
+>   - Reinstalling XAMPP
+>   - Restarting your computer
+>   - Restarting Apache and MySQL services
 
-> **Note**: For additional help, consult relevant online resources or use tools like ChatGPT for assistance.
+> [!NOTE]
+> For additional help, consult relevant online resources or use tools like ChatGPT for assistance.
 
 ### Importing Database
 
-Include steps or instructions here on how to import a database into PhpMyAdmin.
+> [!IMPORTANT]
+> Ensure that you start from the server tab, `Server: 127.0.0.1`, not from the `Database` or `Table` tabs.
 
+1. Download the MySQL code to create the database and tables for the sys
