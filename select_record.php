@@ -13,15 +13,15 @@
         <div class="selectClass">
             <h1>Pilih Kelas</h1>
             <div>
-                <button onclick="callFunc.sendCookie('Arif')">Arif</button>
-                <button onclick="callFunc.sendCookie('Bestari')">Bestari</button>
-                <button onclick="callFunc.sendCookie('Cermelang')">Cermelang</button>
-                <button onclick="callFunc.sendCookie('Dedikasi')">Dedikasi</button>
-                <button onclick="callFunc.sendCookie('Efisien')">Efisien</button>
-                <button onclick="callFunc.sendCookie('Fikrah')">Fikrah</button>
-                <button onclick="callFunc.sendCookie('Gemilang')">Gemilang</button>
-                <button onclick="callFunc.sendCookie('Harmoni')">Harmoni</button>
-                <button onclick="callFunc.sendCookie('Iltizam')">Iltizam</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Arif', 'r')">Arif</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Bestari', 'r')">Bestari</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Cermelang', 'r')">Cermelang</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Dedikasi', 'r')">Dedikasi</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Efisien', 'r')">Efisien</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Fikrah', 'r')">Fikrah</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Gemilang', 'r')">Gemilang</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Harmoni', 'r')">Harmoni</button>
+                <button onclick="callFunc.sendCookie('kelas', 'Iltizam', 'r')">Iltizam</button>
             </div>
         </div>
     </body>

@@ -6,6 +6,9 @@
  <!DOCTYPE html>
  <html lang="ms-MY">
     <?php echo $headClient; ?>
+    <script type="module">
+      import { callFunc } from "./library/progIntervensi-lib.js";
+    </script>
     <body>
        <?php 
          $func = new globalFunc;
