@@ -11,6 +11,8 @@
     </script>
     <body>
         <div class="selectClass">
+            <h1>Rekod Kehadiran</h1>
+            <hr>
             <h1>Pilih Kelas</h1>
             <div>
                 <button onclick="callFunc.sendCookie('kelas', 'Arif', 'r')">Arif</button>
@@ -23,6 +25,9 @@
                 <button onclick="callFunc.sendCookie('kelas', 'Harmoni', 'r')">Harmoni</button>
                 <button onclick="callFunc.sendCookie('kelas', 'Iltizam', 'r')">Iltizam</button>
             </div>
+        </div>
+        <div class="seekAttendance">
+            <a href="main_page.php">Menu Utama</a>
         </div>
     </body>
 </html>

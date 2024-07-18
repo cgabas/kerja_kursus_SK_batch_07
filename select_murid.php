@@ -12,6 +12,8 @@
     </script>
     <body>
         <div class="selectClass">
+            <h1>Senarai Murid</h1>
+            <hr>
             <h1>Pilih Kelas</h1>
             <div>
                 <button onclick="callFunc.sendCookie('kelas', 'Arif', 'm')">Arif</button>

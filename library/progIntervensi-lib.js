@@ -5,7 +5,7 @@ const callFunc = {
         if (redirect === 'r') {
             window.location = "record.php";
         } else if (redirect === 'm') {
-            window.location = "";
+            window.location = "murid.php";
         } else if (redirect === 'a') {
             window.location = "attendance.php";
         }

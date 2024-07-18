@@ -42,6 +42,9 @@
                     </button>
                 </div>
             </form>
+            <div class="seekAttendance">
+                <a href="main_page.php">Menu Utama</a>
+            </div>
             <form action="program_delete.php" method="post">
                 <table>
                     <?php

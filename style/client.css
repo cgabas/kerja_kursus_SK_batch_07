@@ -482,6 +482,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
     background-color: white;
     border: solid black 1px;
 }
+.selectClass hr {
+    width: 100%;
+    border-width: 0.8px 0 0.8px 0;
+}
 
 .seekAttendance {
     display: flex;

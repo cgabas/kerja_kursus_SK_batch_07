@@ -25,9 +25,12 @@
                 <?php
                     $func = new globalFunc;
                     $search = (isset($_POST['submit']))?$_POST['search']:NULL;
-                    $func -> murid($cDB, $search, $_COOKIE['kelas'], false);
+                    $func -> murid($cDB, $search, $_COOKIE['kelas']);
                 ?>
             </table>
+        </div>
+        <div class="seekAttendance">
+            <a href="main_page.php">Menu Utama</a>
         </div>
     </body>
 </html>
