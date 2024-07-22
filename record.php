@@ -27,15 +27,26 @@
                     // reminder: session_start() was removed because of navigation.php
                     $isExist = $func -> checkProgram($cDB, $_SESSION['nokp']);
                     
+                    // Depending on which teacher is using this system, the program will be displayed if:
+                    // 1. The program was assigned to the teacher who is currently logged into this system.
+                    // 2. The current time is between the program's start and end times.
+                    // 3. The teacher has not recorded attendance for this class before, as checked by the checkExistKehadiran function.
                     if(!$isExist) {
                         echo "<div><img alt=\"Tiada Urusan Program\" src=\"style/image/not-involved.png\">";
                         echo "<h1>Tiada Urusan Program Hari Ini!</h1></div>";
                         session_write_close();
                     }
                     else {
-                        echo "<h3 id=\"greeting\">".$isExist['nama_program']."</h3>";
-                        $func -> recordForm($cDB, $_SESSION['nokp'], $_COOKIE['kelas']);
-                        session_write_close();
+                        if(!$func->checkExistKehadiran($cDB, $isExist['kodProgram'], $_COOKIE['kelas'])) {
+                            echo "<h3 id=\"greeting\">".$isExist['nama_program']."</h3>";
+                            $func -> recordForm($cDB, $_SESSION['nokp'], $_COOKIE['kelas']);
+                            session_write_close();
+                        }
+                        else {
+                            echo "<div><img alt=\"Tiada Urusan Program Bagi Kelas ".$_COOKIE['kelas']."\" src=\"style/image/not-involved.png\">";
+                            echo "<h1>Kehadiran Kelas Ini Sudah Direkod!</h1></div>";
+                            session_write_close();
+                        }
                     }
                 ?>
             </div>

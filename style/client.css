@@ -589,3 +589,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
     width: 100%;
     cursor: default;
 }
+
+#important_msg {
+    color: red;
+    font-family: roboC-bold;
+}

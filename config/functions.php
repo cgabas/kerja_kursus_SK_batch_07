@@ -1,4 +1,12 @@
 <?php
+/*
+    PLEASE DO NOT RELOCATE THIS FILE UNLESS YOU KNOW WHAT YOU ARE DOING.
+    THIS FILE IS THE HEART OF ALL FUNCTIONS USED BY EVERY PHP CODE INSIDE THIS SYSTEM.
+
+    LOCATE ALL USABLE FUNCTIONS HERE FOR FUNCTION SCALABILITY.
+
+    RULE OF THUMB: always encapsulate variables with quotes `'` when writing a query to prevent errors.
+*/
 class globalFunc
 {
 
@@ -18,7 +26,8 @@ class globalFunc
             while ($data = mysqli_fetch_assoc($result)) {
                 return $data['nama_guru'];
             }
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -26,7 +35,7 @@ class globalFunc
     // change time format from 12Hour system to 24Hour system and vice versa
     function timeFormatChange($t, $s)
     { // return function
-        switch ($s) {
+        switch($s) {
             case 'REVERSE':
                 $datetime = DateTime::createFromFormat('g:i A', $t);
                 $format12 = $datetime->format('H:i:s');
@@ -82,10 +91,12 @@ class globalFunc
             session_write_close();
             if ($data['aras'] === 'ADMIN') {
                 header("Location: main_page_admin.php");
-            } else {
+            }
+            else {
                 header("Location: main_page.php");
             }
-        } else {
+        }
+        else {
             echo "<script>alert('Maklumat Salah, Sila Cuba Lagi.');window.location='index.php';</script>";
         }
     }
@@ -119,7 +130,8 @@ class globalFunc
                 // if true, then the 'kodProgram' will be avaliable to be click
                 if ($s) {
                     echo "<tr><td><a href=\"#\" onclick=\"callFunc.seekAttendance('".$data['kodProgram']."')\">" . $data['kodProgram'] . "</a></td>";
-                } else {
+                }
+                else {
                     echo "<tr><td>" . $data['kodProgram'] . "</td>";
                 }
                 echo "<td>" . $data['nama_program'] . "</td>";
@@ -128,51 +140,69 @@ class globalFunc
                 echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
                 echo "<td>" . $data['maklumat'] . "</td></tr>";
             }
-        } else {
+        }
+        else {
             echo "<h2>Tiada Program Hari Ini</h2>";
         }
     }
 
     // to list avaliable row in 'murid' table based on what class
-    function murid($DB, $v, $vv)
-    { // procedure function
+    function murid($DB, $v, $vv, $s) { // procedure function
         // search query passed through the second argument, $v
         // kelas data passed through the third argument, $vv
         // $s is for function switch
-        if (empty($v)) { // if searchbox is empty
-            $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
-
-            if (mysqli_num_rows($result) > 0) {
-                echo "<tr><th>Nombor IC</th>";
-                echo "<th>Nama Murid</th>";
-                echo "<th>Jantina</th>";
-                echo "<th>Kelas</th></tr>";
-                while ($data = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $data['noic'] . "</td>";
-                    echo "<td>" . $data['nama'] . "</td>";
-                    echo "<td>" . $data['jantina'] . "</td>";
-                    echo "<td>" . $data['kelas'] . "</td></tr>";
+        if($s === 'NOIC') {
+            $result = mysqli_query($DB, "SELECT noic FROM murid WHERE kelas = '$vv'");
+            if(mysqli_num_rows($result) > 0) {
+                while($data=mysqli_fetch_assoc($result)) {
+                    $array[] = $data['noic'];
                 }
-            } else {
-                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                echo "<h1>Tiada Murid Yang Menyertai</h1></div>";
             }
-        } else {
-            $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv' AND nama LIKE '$v%'");
-            if (mysqli_num_rows($result) > 0) {
-                echo "<tr><th>Nombor IC</th>";
-                echo "<th>Nama Murid</th>";
-                echo "<th>Jantina</th>";
-                echo "<th>Kelas</th></tr>";
-                while ($data = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $data['noic'] . "</td>";
-                    echo "<td>" . $data['nama'] . "</td>";
-                    echo "<td>" . $data['jantina'] . "</td>";
-                    echo "<td>" . $data['kelas'] . "</td></tr>";
+            else {
+                return false;
+            }
+            // shorthand if else, return false if array is empty
+            return !empty($array) ? $array:false;
+        }
+        else {
+            if (empty($v)) { // if searchbox is empty
+                $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
+
+                if (mysqli_num_rows($result) > 0) {
+                    echo "<tr><th>Nombor IC</th>";
+                    echo "<th>Nama Murid</th>";
+                    echo "<th>Jantina</th>";
+                    echo "<th>Kelas</th></tr>";
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo "<tr><td>" . $data['noic'] . "</td>";
+                        echo "<td>" . $data['nama'] . "</td>";
+                        echo "<td>" . $data['jantina'] . "</td>";
+                        echo "<td>" . $data['kelas'] . "</td></tr>";
+                    }
                 }
-            } else {
-                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                echo "<h1>Nama Tidak Dijumpai</h1></div>";
+                else {
+                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                    echo "<h1>Tiada Murid Yang Menyertai</h1></div>";
+                }
+            }
+            else {
+                $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv' AND nama LIKE '$v%'");
+                if (mysqli_num_rows($result) > 0) {
+                    echo "<tr><th>Nombor IC</th>";
+                    echo "<th>Nama Murid</th>";
+                    echo "<th>Jantina</th>";
+                    echo "<th>Kelas</th></tr>";
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo "<tr><td>" . $data['noic'] . "</td>";
+                        echo "<td>" . $data['nama'] . "</td>";
+                        echo "<td>" . $data['jantina'] . "</td>";
+                        echo "<td>" . $data['kelas'] . "</td></tr>";
+                    }
+                }
+                else {
+                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                    echo "<h1>Nama Tidak Dijumpai</h1></div>";
+                }
             }
         }
     }
@@ -403,7 +433,7 @@ class globalFunc
                 echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
             }
             echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
-            echo "<p><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
+            echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
         } else {
             echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
             echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
@@ -484,4 +514,19 @@ class globalFunc
         }
         return $students;
     }    
+
+    // used to check if the selected program is already recorded on the 'kehadiran' table(must view kelas also)
+    function checkExistKehadiran($DB, $v, $vv) {
+        // kodKehadiran value is passed through the second argument, $v
+        // kelas value is passed through the third argument, $vv
+        $array[] = $this->murid($DB, NULL, $vv, 'NOIC');
+        foreach($array as $x) {
+            $result = mysqli_query($DB, "SELECT kodProgram FROM kehadiran WHERE kodProgram = '$v' AND noic = '".$x[0]."'");
+
+            if(mysqli_num_rows($result) === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
