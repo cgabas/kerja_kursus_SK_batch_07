@@ -313,6 +313,129 @@ input[type='date']::-webkit-calendar-picker-indicator {
     margin: 0;
 }
 
+.addProgram, .addProgram form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.addProgram h1 {
+    color: white;
+    font-family: bebas;
+    text-align: center;
+    margin-bottom: 0;
+    text-wrap: wrap;
+    max-width: 100%;
+}
+.addProgram hr {
+    border-left-width: 90px;
+    border-right-width: 90px;
+    margin: 0;
+}
+.addProgram form #syncTextToTitle {
+    background-color: var(--G2);
+    color: white;
+    font-family: roboC;
+    font-size: large;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    text-align: center;
+}
+.addProgram form div:nth-last-child(1n-2) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.addProgram form div:nth-child(2) div,
+.addProgram form div:nth-child(3) div:nth-child(1),
+.addProgram form div:nth-child(3) div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--G2);
+    padding: 10px;
+    border-radius: 15px;
+    color: white;
+}
+.addProgram form div:nth-child(2) div label,
+.addProgram form div:nth-child(3) div:nth-child(1) label,
+.addProgram form div:nth-child(3) div:nth-child(2) label,
+.addProgram form div:nth-child(4) label {
+    font-family: roboC-bold;
+    color: white;
+}
+.addProgram form div:nth-child(2) div input,
+.addProgram form div:nth-child(3) div:nth-child(1) input,
+.addProgram form div:nth-child(3) div:nth-child(2) select {
+    font-family: roboC;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: large;
+    background-color: var(--G1);
+    text-align: center;
+}
+.addProgram form div:nth-child(3) div:nth-child(2) select {
+    width: 100%;
+}
+.addProgram form div:nth-child(4) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--G2);
+    padding: 10px;
+    border-radius: 15px 15px 0 15px;
+}
+.addProgram form div:nth-child(4) textarea {
+    background-color: var(--G1);
+    border: none;
+    border-radius: 10px 10px 0 10px;
+    color: white;
+    padding: 5px;
+    font-family: roboC-italic;
+    font-size: large;
+    outline: none;
+}
+.addProgram form div:nth-child(5) {
+    gap: 0px;
+}
+.addProgram form div:nth-child(5) button:nth-child(1),
+.addProgram form div:nth-child(5) button:nth-child(2) {
+    color: white;
+    padding: 20px;
+    margin: 0;
+    background-color: var(--G1);
+    border: 1px white solid;
+    width: 100%;
+    font-size: large;
+    font-family: roboC-bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.addProgram form div:nth-child(5) button:nth-child(1) {
+    border-radius: 10px 0 0 10px;
+    text-decoration: underline;
+}
+.addProgram form div:nth-child(5) button:nth-child(1):hover {
+    padding: 20px 20px 20px 30px;
+    background-color: var(--G4);
+    color: black;
+    border: none;
+    text-decoration: none;
+}
+.addProgram form div:nth-child(5) button:nth-child(2) {
+    border-radius: 0 10px 10px 0;
+}
+.addProgram form div:nth-child(5) button:nth-child(2):hover {
+    padding: 20px 30px 20px 20px;
+    background-color: red;
+    color: black;
+    border: none;
+    text-decoration: underline;
+}
 
 /* id */
 #greeting {

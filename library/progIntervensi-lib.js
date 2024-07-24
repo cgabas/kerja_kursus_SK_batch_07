@@ -19,6 +19,16 @@ const callFunc = {
     switchTable: function(kelas) {
         this.sendCookie('kelas', kelas, null);
         document.getElementById("table").outerHTML = "<iframe id=\"table\" src=\"table.php\" frameborder=\"0\"></iframe>";
+    },
+
+    inputToTitleSync: function() {
+        var input = document.getElementById("syncTextToTitle");
+        var title = document.getElementById("programName");
+
+        if(input.value.length === 0) {
+            title.textContent = "Nama Program";
+        }
+        title.textContent = input.value;
     }
 };
 

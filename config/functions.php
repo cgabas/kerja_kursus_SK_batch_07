@@ -5,22 +5,22 @@
 
     LOCATE ALL USABLE FUNCTIONS HERE FOR FUNCTION SCALABILITY.
 
+    Using Object-Oriented Programming to save time on coding(BEFORE SPM!!!).
+
     RULE OF THUMB: always encapsulate variables with quotes `'` when writing a query to prevent errors.
 */
 class globalFunc
 {
 
     // generate random 7 letters code with some prefix you can add
-    function randCode($pf)
-    { // return function
+    function randCode($pf) { // return function
         $randBytes = random_bytes(3); // generate 3 bytes of random code
         $convert2Hex = bin2hex($randBytes); // convert it to hexadecimal which becomes 6 character
         return $pf . $convert2Hex; // combine it with the given prefix from given argument when returning values
     }
 
     // find guru's name by their nokp
-    function nokp2guru($DB, $v)
-    { // return function
+    function nokp2guru($DB, $v) { // return function
         $result = mysqli_query($DB, "SELECT nama_guru FROM guru WHERE nokp='$v'");
         if (mysqli_num_rows($result) > 0) {
             while ($data = mysqli_fetch_assoc($result)) {
@@ -33,8 +33,7 @@ class globalFunc
     }
 
     // change time format from 12Hour system to 24Hour system and vice versa
-    function timeFormatChange($t, $s)
-    { // return function
+    function timeFormatChange($t, $s) { // return function
         switch($s) {
             case 'REVERSE':
                 $datetime = DateTime::createFromFormat('g:i A', $t);
@@ -54,8 +53,7 @@ class globalFunc
         change date format from DD-MM-YYYY which is mysql preferred format
         to YYYY-MM-DD date format that we commonly use
         */
-    function dateFormatChange($t, $s)
-    { // return function
+    function dateFormatChange($t, $s) { // return function
         switch ($s) {
             case 'REVERSE':
                 $datetime = DateTime::createFromFormat('d-m-Y', $t);
@@ -73,8 +71,7 @@ class globalFunc
         admin and user to access different web page based on
         their level(aras)
         */
-    function loginProcess($DB, $a)
-    { //procedure function
+    function loginProcess($DB, $a) { //procedure function
         $stmt = mysqli_prepare($DB, "SELECT * FROM guru WHERE nokp=? AND katalaluan=?");
         mysqli_stmt_bind_param($stmt, "ss", $a['nokp'], $a['pass']);
         mysqli_stmt_execute($stmt);
@@ -106,8 +103,7 @@ class globalFunc
         matching the current date and will be display at the
         main page(both user and admin)
         */
-    function todaysProgram($DB, $s)
-    { // procedure function
+    function todaysProgram($DB, $s) { // procedure function
         // $s argument is for switch
         $curDate = date("Y-m-d");
         if($s) {
@@ -211,48 +207,68 @@ class globalFunc
         same as the previous function 'function murid()' but for guru, 
         will list both admin and user(guru)
         */
-    function guru($DB, $v)
-    { // procedure function
-        if (empty($v)) {
-            $result = mysqli_query($DB, "SELECT * FROM guru");
-            if (mysqli_num_rows($result) > 0) {
-                echo "<tr><th>Nombor KP</th>";
-                echo "<th>Nama Guru</th>";
-                echo "<th>Jantina</th>";
-                echo "<th>Guru Matapelajaran</th></tr>";
-                while ($data = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $data['nokp'] . "</td>";
-                    echo "<td>" . $data['nama_guru'] . "</td>";
-                    echo "<td>" . $data['jantina'] . "</td>";
-                    echo "<td>" . $data['guru_matapelajaran'] . "</td></tr>";
+    function guru($DB, $v, $s) { // procedure/return function
+
+        // to return an array 
+        if($s === 'LIST') {
+            $result = mysqli_query($DB, "SELECT * FROM GURU");
+
+            if(mysqli_num_rows($result) > 0) {
+                while($data=mysqli_fetch_assoc($result)) {
+                    if($data['aras'] === 'ADMIN') {
+                        continue;
+                    }
+                    $nokp[] = $data['nokp'];
+                    $nama[] = $data['nama_guru'];
                 }
-            } else {
-                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                echo "<h1>Tiada Guru Yang Terlibat</h1></div>";
+
+                return [
+                    'nokp' => $nokp,
+                    'nama_guru' => $nama
+                ];
             }
-        } else {
-            $result = mysqli_query($DB, "SELECT * FROM guru WHERE nama_guru LIKE '$v%'");
-            if (mysqli_num_rows($result) > 0) {
-                echo "<tr><th>Nombor KP</th>";
-                echo "<th>Nama Guru</th>";
-                echo "<th>Jantina</th>";
-                echo "<th>Guru Matapelajaran</th></tr>";
-                while ($data = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $data['nokp'] . "</td>";
-                    echo "<td>" . $data['nama_guru'] . "</td>";
-                    echo "<td>" . $data['jantina'] . "</td>";
-                    echo "<td>" . $data['guru_matapelajaran'] . "</td></tr>";
+        }
+        else {
+            if (empty($v)) {
+                $result = mysqli_query($DB, "SELECT * FROM guru");
+                if (mysqli_num_rows($result) > 0) {
+                    echo "<tr><th>Nombor KP</th>";
+                    echo "<th>Nama Guru</th>";
+                    echo "<th>Jantina</th>";
+                    echo "<th>Guru Matapelajaran</th></tr>";
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo "<tr><td>" . $data['nokp'] . "</td>";
+                        echo "<td>" . $data['nama_guru'] . "</td>";
+                        echo "<td>" . $data['jantina'] . "</td>";
+                        echo "<td>" . $data['guru_matapelajaran'] . "</td></tr>";
+                    }
+                } else {
+                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                    echo "<h1>Tiada Guru Yang Terlibat</h1></div>";
                 }
             } else {
-                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                echo "<h1>Nama Tidak Dijumpai</h1></div>";
+                $result = mysqli_query($DB, "SELECT * FROM guru WHERE nama_guru LIKE '$v%'");
+                if (mysqli_num_rows($result) > 0) {
+                    echo "<tr><th>Nombor KP</th>";
+                    echo "<th>Nama Guru</th>";
+                    echo "<th>Jantina</th>";
+                    echo "<th>Guru Matapelajaran</th></tr>";
+                    while ($data = mysqli_fetch_assoc($result)) {
+                        echo "<tr><td>" . $data['nokp'] . "</td>";
+                        echo "<td>" . $data['nama_guru'] . "</td>";
+                        echo "<td>" . $data['jantina'] . "</td>";
+                        echo "<td>" . $data['guru_matapelajaran'] . "</td></tr>";
+                    }
+                } else {
+                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                    echo "<h1>Nama Tidak Dijumpai</h1></div>";
+                }
             }
         }
     }
 
     // listing every program that ever anounced by admin
-    function program($DB, $a, $s)
-    { // procedure function
+    function program($DB, $a, $s) { // procedure function
         // $s(the third argument) will act like a switch
         // if $s true, a checkbox option will be include when displaying form(for admin)
         if ($s) {
@@ -382,8 +398,7 @@ class globalFunc
         currentTime is greater than or equal to start_time 
         and currentTime is less than end_time
         */
-    function checkProgram($DB, $v)
-    { // procedure function
+    function checkProgram($DB, $v) { // procedure function
         $query = "SELECT * 
             FROM program 
             WHERE tarikh = CURDATE() 
@@ -412,31 +427,55 @@ class globalFunc
         displays a form with a list of students that can be
         checked by the teacher by using a checkbox
         */
-    function recordForm($DB, $v, $vv)
-    { // procedure function
-        // nokp data passed through the second argument, $v
-        // kelas data passed through the third argument, $vv
-        $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
-
-        if (mysqli_num_rows($result) > 0) {
-            echo "<table><tr><th>Nama Murid</th>";
-            echo "<th>Nombor IC</th>";
-            echo "<th>Jantina</th>";
-            echo "<th>Kelas</th>";
-            echo "<th>Pilih</th></tr>";
-            $kodProgram = $this->checkProgram($DB, $v);
-            while ($data = mysqli_fetch_assoc($result)) {
-                echo "<tr><td>" . $data['nama'] . "</td>";
-                echo "<td>" . $data['noic'] . "</td>";
-                echo "<td>" . $data['jantina'] . "</td>";
-                echo "<td>" . $data['kelas'] . "</td>";
-                echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
+    function recordForm($DB, $va, $vv, $s) { // return/procedure function
+        // nokp data or array passed through the second argument, $va
+        // kelas data passed through the third argument, $vv. Give NULL if not required
+        // $s is for function switch
+        if($s === 'PROGRAM') {
+            $randCode = $this->randCode('p');
+            $stmt = $DB -> prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt -> bind_param(
+                "ssssssss",
+                $randCode,
+                $va['nama_program'],
+                $va['maklumat'],
+                $va['tempat'],
+                $va['tarikh'],
+                $va['masa_mula'],
+                $va['masa_tamat'],
+                $va['nokp']
+            );
+            if($stmt->execute()) {
+                return true;
             }
-            echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
-            echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
-        } else {
-            echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-            echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
+            else {
+                return false;
+            }
+        }
+        else {
+            $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
+
+            if (mysqli_num_rows($result) > 0) {
+                echo "<table><tr><th>Nama Murid</th>";
+                echo "<th>Nombor IC</th>";
+                echo "<th>Jantina</th>";
+                echo "<th>Kelas</th>";
+                echo "<th>Pilih</th></tr>";
+                $kodProgram = $this->checkProgram($DB, $va);
+                while ($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td>" . $data['nama'] . "</td>";
+                    echo "<td>" . $data['noic'] . "</td>";
+                    echo "<td>" . $data['jantina'] . "</td>";
+                    echo "<td>" . $data['kelas'] . "</td>";
+                    echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
+                }
+                echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
+                echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
+            }
+            else {
+                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
+            }
         }
     }
 
@@ -448,8 +487,7 @@ class globalFunc
      * @param mixed $noic
      * @return array|bool
      */
-    function saverecord($DB, $nokp, $noic)
-    { // return function
+    function saverecord($DB, $nokp, $noic) { // return function
         // Generate 7 letter code with 'p' as a prefix at front
         $randC = $this->randCode("k");
 
@@ -478,8 +516,9 @@ class globalFunc
         }
     }
 
-
-    function findStudent($DB, $v, $vv) {
+    // only gives you a list of student's data that has attend on this(refer to given kodKehadiran) program
+    // student(s) who not attend will not included inside the array
+    function findStudent($DB, $v, $vv) { // return function
         // Prepare the kehadiran query
         $stmtKehadiran = $DB->prepare("SELECT noic, masa_direkod FROM kehadiran WHERE kodProgram = ?");
         $stmtKehadiran->bind_param("s", $v);
@@ -516,7 +555,7 @@ class globalFunc
     }    
 
     // used to check if the selected program is already recorded on the 'kehadiran' table(must view kelas also)
-    function checkExistKehadiran($DB, $v, $vv) {
+    function checkExistKehadiran($DB, $v, $vv) { // return function
         // kodKehadiran value is passed through the second argument, $v
         // kelas value is passed through the third argument, $vv
         $array[] = $this->murid($DB, NULL, $vv, 'NOIC');

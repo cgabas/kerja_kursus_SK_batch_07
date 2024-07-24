@@ -9,7 +9,6 @@
                 echo $logoInHTML;
             ?>
         </a>
-        <small id="smallText">Menu Utama</small>
     </div>
     <button onclick="window.location='program.php'">Senarai Program</button>
     <button onclick="window.location='logout.php'">Log Keluar</button>

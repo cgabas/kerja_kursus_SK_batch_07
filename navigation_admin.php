@@ -9,7 +9,7 @@
                 echo $logoInHTML;
             ?>
         </a>
-        <small id="smallText">Menu Utama</small>
+        <small id="smallText">Mod Admin</small>
     </div>
     <button onclick="window.location='program.php'">Senarai Program</button>
     <button onclick="window.location='logout.php'">Log Keluar</button>

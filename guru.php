@@ -22,7 +22,7 @@
                 <?php
                     $func = new globalFunc;
                     $search = (isset($_POST['submit']))?$_POST['search']:NULL;
-                    $func -> guru($cDB, $search);
+                    $func -> guru($cDB, $search, NULL);
                 ?>
             </table>
         </div>
