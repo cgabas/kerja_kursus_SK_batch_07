@@ -31,7 +31,7 @@
                 }
             ?>
             <h3 id="greeting">Senarai Program Yang Pernah Diadakan Sebelum Ini</h3>
-            <form action="" method="post">
+            <form action="" method="post" id="search">
                 <label for="searchNama">Carian Program</label>
                 <div>
                     <input type="text" id="searchNama" name="searchNama" placeholder="Nama Program" maxlength="20">
@@ -42,10 +42,11 @@
                     </button>
                 </div>
             </form>
-            <div class="seekAttendance">
+            <div class="seekAttendance" style="display: block; padding-top: 10px;">
                 <a href="main_page.php">Menu Utama</a>
+                <a onclick="window.print();" href="#">Cetak</a>
             </div>
-            <form action="program_delete.php" method="post">
+            <form id="printForm" action="program_delete.php" method="post">
                 <table>
                     <?php
                         $func = new globalFunc;

@@ -15,14 +15,14 @@
         $masa_mula = $_POST['start-time'];
         $masa_tamat = $_POST['end-time'];
 
-        if($func->recordForm($cDB, [
+        if($func->addToDB($cDB, [
             'nama_program' => $nama_program,
             'maklumat' => $maklumat,
             'tempat' => $tempat,
             'tarikh' => $tarikh,
             'masa_mula' => $masa_mula,
             'masa_tamat' => $masa_tamat,
-            'nokp' => $nokp], NULL, 'PROGRAM')) {
+            'nokp' => $nokp], 'PROGRAM')) {
             echo "<script>alert('Program Yang Dinamakan `".$nama_program."` Telah Diwujudkan!'); window.location = 'main_page_admin.php';</script>";
         }
         else {

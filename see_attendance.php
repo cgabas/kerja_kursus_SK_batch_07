@@ -6,21 +6,13 @@ $func = new globalFunc;
 ?>
 <!DOCTYPE html>
 <html lang="ms-MY">
-    <?php echo $headClient; ?>
-    <script type="module">
-        import { callFunc } from "./library/progIntervensi-lib.js";
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var kelas = document.getElementById('kelas').value;
-            var button = document.getElementById('papar');
-
-            button.addEventListener('click', function() {
-                callFunc.switchTable(kelas);
-            });
-        });
-    </script>
+    <?php echo $headClient;?>
     <body>
         <?php include_once "navigation.php"; ?>
+        <h3 id="greeting">
+            <!-- access the 'kelas' name using $_COOKIE[] function  -->
+            Kehadiran Murid Untuk Kelas <?php echo $_COOKIE['kelas'];?>
+        </h3>
         <div class="murid">  
             <table>
                 <tr>
@@ -36,7 +28,7 @@ $func = new globalFunc;
                             echo "<tr><td>".$data['nama']."</td>";
                             echo "<td>".$data['jantina']."</td>";
                             echo "<td>".$data['noic']."</td>";
-                            echo "<td>".$data['masa_rekod']."</td></tr>";
+                            echo "<td>".$func -> timeFormatChange($data['masa_rekod'], 'NORMAL')."</td></tr>"; // must me 12 hour system
                         }
                     } else {
                         echo "<tr><td colspan='4'>No records found.</td></tr>";
@@ -44,6 +36,29 @@ $func = new globalFunc;
                 ?>
             </table>
         </div>
-        <button id="print">Cetak</button> <small style="color: red;">*(belum ada)</small>
+        <div class="seekAttendance">
+            <a href="#" onclick="window.print();">Cetak</a>
+        </div>
     </body>
+    <style>
+        @media print {
+            html {
+                scale: 100%;
+            }
+            nav {
+                display: none;
+            }
+            .murid table {
+                border-collapse: collapse;
+            }
+            .murid table tr th {
+                border: 1px solid black;
+                color: black;
+            }
+            .murid table tr td {
+                border: 1px solid black;
+                color: black;
+            }
+        }
+    </style>
 </html>

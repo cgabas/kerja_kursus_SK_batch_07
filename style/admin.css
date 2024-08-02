@@ -10,6 +10,7 @@
     --C1: #3b9ca3;
     --C2: #04b556;
     --C3: #db166b;
+    --C4: #242424;
 
     /* gradient colour */
     --greeting: linear-gradient(to left, var(--G1), var(--G3), var(--G1));
@@ -53,14 +54,18 @@
 body, html {
     margin: 0;
     padding: 0;
-    background-color: var(--G1);
+    background-image: url("image/background.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 nav {
     display: flex;
     align-items: stretch;
     justify-content: space-evenly;
-    background-color: var(--G1);
+    background-color: var(--C4);
     padding:0 0 0 0;
     width: 100%;
 }
@@ -72,10 +77,10 @@ nav div {
 }
 nav button {
     width: 100%;
-    background-color: var(--G1);
+    background-color: var(--C4);
     color: white;
     font-family: robo-bold;
-    font-size: large;
+    font-size: 130%;
     border: none;
     cursor: pointer;
     transition: 0.2s;
@@ -94,6 +99,7 @@ nav div h4 {
     text-wrap: nowrap;
 }
 
+
 /* class */
 .displayProgram {
     display: flex;
@@ -108,12 +114,14 @@ nav div h4 {
     color: black;
     padding: 5px 10px 5px 10px;
     font-family: bebas;
+    font-size: 200%;
 }
 .displayProgram table tr th {
     background-color: var(--G4);
     color: black;
-    padding: 10px;
+    padding: 15px;
     font-family: roboC-bold;
+    font-size: large;
 }
 .displayProgram table tr th:nth-child(1) {
     border-bottom-left-radius: 10px;
@@ -130,6 +138,7 @@ nav div h4 {
     font-family: roboC-italic;
     border-bottom: var(--G4) solid 2px;
     padding: 5px;
+    font-size: large;
 }
 
 .guru {
@@ -140,8 +149,8 @@ nav div h4 {
 }
 .guru form {
     background-color: var(--G3);
-    padding: 10px;
-    border-radius: 10px;
+    padding: 10px 10px 10px 15px;
+    border-radius: 15px;
     font-family: roboC-bold;
     display: flex;
     align-items: center;
@@ -151,7 +160,7 @@ nav div h4 {
     text-align: center;
     outline: none;
     border: none;
-    padding: 10px;
+    padding: 15px;
     margin: 0 0 0 10px;
     font-family: robo-italic;
     border-radius: 10px 0 0 10px;
@@ -163,7 +172,7 @@ nav div h4 {
     font-family: roboC;
     border: none;
     border-radius: 0 10px 10px 0;
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -190,7 +199,8 @@ nav div h4 {
     background-color: var(--G4);
     color: black;
     font-family: roboC-bold;
-    padding: 10px;
+    font-size: large;
+    padding: 15px;
 }
 .guru table tr th:nth-child(1) {
     border-radius: 10px 0 0 10px;
@@ -202,8 +212,45 @@ nav div h4 {
     border-bottom: var(--G4) solid 2px;
     color: white;
     font-family: roboC-italic;
-    padding: 10px;
+    font-size: large;
+    padding: 15px;
     text-align: center;
+}
+
+.seekAttendance {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    max-width: fit-content;
+    margin: auto;
+    gap: 10px;
+}
+.seekAttendance h1 {
+    color: white;
+    font-family: bebas;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.seekAttendance button {
+    color: black;
+    font-family: roboC-bold;
+    background-color: var(--G4);
+    font-size: large;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+}
+.seekAttendance button:hover {
+    background-color: white;
+    outline: 1px black;
+}
+.seekAttendance a {
+    font-family: roboC;
+    margin: 10px;
 }
 
 .program {
@@ -440,6 +487,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 /* id */
 #greeting {
     font-family: roboC-bold;
+    font-size: 150%;
     color: white;
     padding: 5px 0 5px 0;
     background-image: var(--greeting);
@@ -494,16 +542,17 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 #logoHTMLcontainer {
     margin: 10px;
+    background-color: var(--C3);
 }
 
 #smallText {
     background-color: var(--C3);
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
     font-family: roboC-bold;
-    color: black;
-    text-align: center;
     width: 100%;
-    cursor: default;
+    text-align: center;
+}
+
+#important_msg {
+    color: red;
+    font-family: roboC-bold;
 }

@@ -9,6 +9,7 @@
     /* other colours */
     --C1: #3b9ca3;
     --C2: #04b556;
+    --C3: #242424;
 
     /* gradient colour */
     --greeting: linear-gradient(to left, var(--G1), var(--G3), var(--G1));
@@ -47,18 +48,77 @@
     font-family: roboC-MItalic;
     src: url("font/condensed/RobotoCondensed-MediumItalic.ttf");
 }
+
+/* for program.php */
+/* other '@media print' for printing purpose is in their own code */
+@media print {
+    /* program.php */
+    html {
+        scale: 69%; /* set the scale for printing to 69% because the table won't fit */
+    }
+    nav {
+        display: none;
+    }
+    .program nav {
+        display: none;
+    }
+    #greeting {
+        color: black;
+    }
+    #search {
+        display: none;
+    }
+    .program form:nth-child(3) {
+        display: none;
+    }
+    .seekAttendance a {
+        display: none;
+    }
+    #printForm table {
+        width: 19cm;
+        max-width: fit-content;
+        border-collapse: collapse;
+    }
+    #printForm table tr th {
+        border: 1px solid black;
+        background-color: none;
+        text-wrap: wrap;
+        color: black;
+        width: 500px;
+    }
+    #printForm table tr td {
+        border: 1px solid black;
+        border-bottom: 1px solid black;
+        background-color: none;
+        text-wrap: wrap;
+        color: black;
+        padding: 1px;
+        width: 500px;
+    }
+    #printForm table tr td:nth-last-child(1) {
+        width: 5cm;
+    }
+    #printForm table tr th:nth-last-child(1) {
+        width: 5cm;
+    }
+}
+
 /* style configuration */
 body, html {
     margin: 0;
     padding: 0;
-    background-color: var(--G1);
+    background-image: url("image/background.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 nav {
     display: flex;
     align-items: stretch;
     justify-content: space-evenly;
-    background-color: var(--G1);
+    background-color: var(--C3);
     padding:0 0 0 0;
     width: 100%;
 }
@@ -70,10 +130,10 @@ nav div {
 }
 nav button {
     width: 100%;
-    background-color: var(--G1);
+    background-color: var(--C3);
     color: white;
     font-family: robo-bold;
-    font-size: large;
+    font-size: 130%;
     border: none;
     cursor: pointer;
     transition: 0.2s;
@@ -112,8 +172,18 @@ nav div h4 {
     gap: 10px;
     background-color: var(--G2);
     padding: 15px;
-    border-radius: 15px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgb(131, 131, 131);
+    animation-name: shadow;
+    animation-duration: 5s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
 }
+@keyframes shadow {
+    0% {box-shadow: 0 0 0 rgb(0, 0, 0);}
+    50% {box-shadow: 0 0 25px rgb(131, 131, 131);}
+    100% {box-shadow: 0 0 0 rgb(0, 0, 0);}
+ }
 .form h2 {
     font-family: bebas;
     color: white;
@@ -124,10 +194,11 @@ nav div h4 {
 .form button {
     background-color: var(--G1);
     color: white;
-    padding: 10px;
+    padding: 15px;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     font-family: robo-bold;
+    font-size: large;
     width: 100%;
     transition: 0.5s;
     cursor: pointer;
@@ -138,11 +209,12 @@ nav div h4 {
 }
 .form input {
     background-color: var(--G1);
-    padding: 10px 20px 10px 20px;
+    padding: 15px 25px 15px 25px;
     text-align: center;
     font-family: robo-light;
+    font-size: large;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     outline: none;
     color: white;
 }
@@ -160,12 +232,14 @@ nav div h4 {
     color: black;
     padding: 5px 10px 5px 10px;
     font-family: bebas;
+    font-size: 200%;
 }
 .displayProgram table tr th {
     background-color: var(--G4);
     color: black;
-    padding: 10px;
+    padding: 15px;
     font-family: roboC-bold;
+    font-size: large;
 }
 .displayProgram table tr th:nth-child(1) {
     border-bottom-left-radius: 10px;
@@ -182,6 +256,7 @@ nav div h4 {
     font-family: roboC-italic;
     border-bottom: var(--G4) solid 2px;
     padding: 5px;
+    font-size: large;
 }
 
 .murid {
@@ -192,8 +267,8 @@ nav div h4 {
 }
 .murid form {
     background-color: var(--G3);
-    padding: 10px;
-    border-radius: 10px;
+    padding: 10px 10px 10px 15px;
+    border-radius: 15px;
     font-family: roboC-bold;
     display: flex;
     align-items: center;
@@ -203,7 +278,7 @@ nav div h4 {
     text-align: center;
     outline: none;
     border: none;
-    padding: 10px;
+    padding: 15px;
     margin: 0 0 0 10px;
     font-family: robo-italic;
     border-radius: 10px 0 0 10px;
@@ -215,7 +290,7 @@ nav div h4 {
     font-family: roboC;
     border: none;
     border-radius: 0 10px 10px 0;
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -242,19 +317,21 @@ nav div h4 {
     background-color: var(--G4);
     color: black;
     font-family: roboC-bold;
-    padding: 10px;
+    font-size: large;
+    padding: 15px;
 }
 .murid table tr th:nth-child(1) {
     border-radius: 10px 0 0 10px;
 }
 .murid table tr th:nth-last-child(1) {
     border-radius: 0 10px 10px 0;
-}
+ }
 .murid table tr td {
     border-bottom: var(--G4) solid 2px;
     color: white;
     font-family: roboC-italic;
-    padding: 10px;
+    font-size: large;
+    padding: 15px;
     text-align: center;
 }
 
@@ -342,7 +419,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     background-color: var(--G4);
     color: black;
     font-family: roboC-bold;
-    padding: 10px 2px 10px 2px;
+    padding: 15px 2px 15px 2px;
     white-space: nowrap;
 }
 .program table tr th:nth-child(1) {
@@ -352,6 +429,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     border-radius: 0 10px 10px 0;
 }
 .program table tr td {
+    background-color: var(--G1);
     border-bottom: var(--G4) solid 2px;
     color: white;
     font-family: roboC-italic;
@@ -491,6 +569,9 @@ input[type='date']::-webkit-calendar-picker-indicator {
     display: flex;
     align-items: center;
     flex-direction: column;
+    max-width: fit-content;
+    margin: auto;
+    gap: 10px;
 }
 .seekAttendance h1 {
     color: white;
@@ -508,6 +589,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     padding: 15px;
     border: none;
     cursor: pointer;
+    width: 100%;
     transition: 0.2s;
 }
 .seekAttendance button:hover {
@@ -519,9 +601,77 @@ input[type='date']::-webkit-calendar-picker-indicator {
     margin: 10px;
 }
 
+.addMurid {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    max-width: fit-content;
+    margin: auto;
+}
+.addMurid h1 {
+    font-family: bebas;
+    color: white;
+}
+.addMurid hr {
+    border-left-width: 300px;
+    border-right-width: 300px;
+    animation-name: displayLine;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+}
+.addMurid form button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-family: roboC-bold;
+    background-color: var(--G4);
+    font-size: large;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.addMurid form button:hover {
+    background-color: var(--G5);
+}
+.addMurid form table tr td label {
+    color: white;
+    font-family: roboC-bold;
+    font-size: larger
+}
+.addMurid form table tr td input,
+.addMurid form table tr td select {
+    background-color: var(--G3);
+    padding: 5px 20px 5px 20px;
+    color: white;
+    font-family: roboC;
+    font-size: large;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+.addMurid form table tr td {
+    color: white;
+    font-family: roboC;
+    font-size: large;
+}
+@keyframes displayLine {
+    0% {
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+    100% {
+        border-left-width: 300px;
+        border-right-width: 300px;
+    }
+}
+
 /* id */
 #greeting {
     font-family: roboC-bold;
+    font-size: 150%;
     color: white;
     padding: 5px 0 5px 0;
     background-image: var(--greeting);
@@ -576,14 +726,17 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 #logoHTMLcontainer {
     margin: 10px;
+    background-color: var(--C3);
 }
 
 #smallText {
     background-color: var(--C2);
+    box-shadow: 5px 5px 0 white;
     margin: 0;
     padding: 0;
     text-decoration: none;
-    font-family: roboC;
+    font-family: roboC-italic;
+    font-size: large;
     color: whitesmoke;
     text-align: center;
     width: 100%;

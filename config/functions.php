@@ -9,9 +9,18 @@
 
     RULE OF THUMB: always encapsulate variables with quotes `'` when writing a query to prevent errors.
 */
-class globalFunc
-{
-
+class globalFunc {
+    const kelas = [
+        "Arif",
+        "Bestari",
+        "Cermelang",
+        "Dedikasi",
+        "Efisien",
+        "Fikrah",
+        "Gemilang",
+        "Harmoni",
+        "Iltizam"
+    ];
     // generate random 7 letters code with some prefix you can add
     function randCode($pf) { // return function
         $randBytes = random_bytes(3); // generate 3 bytes of random code
@@ -86,6 +95,7 @@ class globalFunc
             $_SESSION['nokp'] = $data['nokp'];
             $_SESSION['aras'] = $data['aras'];
             session_write_close();
+            mysqli_stmt_close($stmt);
             if ($data['aras'] === 'ADMIN') {
                 header("Location: main_page_admin.php");
             }
@@ -427,66 +437,36 @@ class globalFunc
         displays a form with a list of students that can be
         checked by the teacher by using a checkbox
         */
-    function recordForm($DB, $va, $vv, $s) { // return/procedure function
+    function recordForm($DB, $v, $vv) { // return/procedure function
         // nokp data or array passed through the second argument, $va
         // kelas data passed through the third argument, $vv. Give NULL if not required
         // $s is for function switch
-        if($s === 'PROGRAM') {
-            $randCode = $this->randCode('p');
-            $stmt = $DB -> prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt -> bind_param(
-                "ssssssss",
-                $randCode,
-                $va['nama_program'],
-                $va['maklumat'],
-                $va['tempat'],
-                $va['tarikh'],
-                $va['masa_mula'],
-                $va['masa_tamat'],
-                $va['nokp']
-            );
-            if($stmt->execute()) {
-                return true;
+        $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
+
+        if (mysqli_num_rows($result) > 0) {
+            echo "<table><tr><th>Nama Murid</th>";
+            echo "<th>Nombor IC</th>";
+            echo "<th>Jantina</th>";
+            echo "<th>Kelas</th>";
+            echo "<th>Pilih</th></tr>";
+            $kodProgram = $this->checkProgram($DB, $v);
+            while ($data = mysqli_fetch_assoc($result)) {
+                echo "<tr><td>" . $data['nama'] . "</td>";
+                echo "<td>" . $data['noic'] . "</td>";
+                echo "<td>" . $data['jantina'] . "</td>";
+                echo "<td>" . $data['kelas'] . "</td>";
+                echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
             }
-            else {
-                return false;
-            }
+            echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
+            echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
         }
         else {
-            $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
-
-            if (mysqli_num_rows($result) > 0) {
-                echo "<table><tr><th>Nama Murid</th>";
-                echo "<th>Nombor IC</th>";
-                echo "<th>Jantina</th>";
-                echo "<th>Kelas</th>";
-                echo "<th>Pilih</th></tr>";
-                $kodProgram = $this->checkProgram($DB, $va);
-                while ($data = mysqli_fetch_assoc($result)) {
-                    echo "<tr><td>" . $data['nama'] . "</td>";
-                    echo "<td>" . $data['noic'] . "</td>";
-                    echo "<td>" . $data['jantina'] . "</td>";
-                    echo "<td>" . $data['kelas'] . "</td>";
-                    echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
-                }
-                echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
-                echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
-            }
-            else {
-                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
-            }
+            echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+            echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
         }
     }
 
     // to save record, use once only for each program
-    /**
-     * Summary of saverecord
-     * @param mixed $DB
-     * @param mixed $nokp
-     * @param mixed $noic
-     * @return array|bool
-     */
     function saverecord($DB, $nokp, $noic) { // return function
         // Generate 7 letter code with 'p' as a prefix at front
         $randC = $this->randCode("k");
@@ -505,6 +485,7 @@ class globalFunc
 
         // Execute the statement and check if successful
         if ($stmt->execute()) {
+            $stmt -> close;
             return [
                 'noic' => $noic,
                 'kodKehadiran' => $randC,
@@ -551,6 +532,8 @@ class globalFunc
         } else {
             return false;
         }
+        mysqli_stmt_close($stmtMurid);
+        mysqli_stmt_close($stmtKehadiran);
         return $students;
     }    
 
@@ -567,5 +550,66 @@ class globalFunc
             }
         }
         return true;
+    }
+
+    // to add new murid, program or guru into database
+    function addToDB($DB, $a, $s) {
+        if($s === 'PROGRAM') {
+            $randCode = $this -> randCode('p');
+            $stmt = $DB -> prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt -> bind_param(
+                "ssssssss",
+                $randCode,
+                $a['nama_program'],
+                $a['maklumat'],
+                $a['tempat'],
+                $a['tarikh'],
+                $a['masa_mula'],
+                $a['masa_tamat'],
+                $a['nokp']
+            );
+            if($stmt->execute()) {
+                $stmt -> close;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        elseif($s === 'MURID') {
+            $stmt = $DB -> prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
+            $stmt -> bind_param(
+                "ssss", 
+                $a['noic'], 
+                $a['nama'], 
+                $a['jantina'], 
+                $a['kelas']
+            );
+            if($stmt->execute()) {
+                $stmt -> close;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        elseif($s === 'GURU') {
+            $stmt = $DB -> prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras) VALUES (?, ?, ?, ?, ?, 'PENGGUNA')");
+            $stmt -> bind_param(
+                "sssss", 
+                $a['nokp'], 
+                $a['katalaluan'], 
+                $a['nama_guru'], 
+                $a['jantina'],
+                $a['guru_matapelajaran']
+            );
+            if($stmt->execute()) {
+                $stmt -> close;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }
