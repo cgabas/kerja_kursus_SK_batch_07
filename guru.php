@@ -9,7 +9,7 @@
     <body>
         <?php include_once "navigation_admin.php"; ?>
         <div class="guru">
-            <h3 id="greeting">Senarai Murid Yang Mengikuti</h3>
+            <h3 id="greeting">Senarai Guru Yang Didaftarkan</h3>
             <form action="" method="post" id="printForm">
                 <label for="search">Carian Nama</label>
                 <input type="text" id="search" name="search" placeholder="Nama Guru" maxlength="20">

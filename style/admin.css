@@ -50,6 +50,77 @@
     src: url("font/condensed/RobotoCondensed-MediumItalic.ttf");
 }
 
+/* for program.php */
+/* other '@media print' for printing purpose is in their own code */
+@media print {
+    /* program.php */
+    html {
+        scale: 90%; /* set the scale for printing to 69% because the table won't fit */
+    }
+    nav {
+        display: none;
+    }
+    .program nav {
+        display: none;
+    }
+    #greeting {
+        color: black;
+    }
+    #search {
+        display: none;
+    }
+    .program form:nth-child(3) {
+        display: none;
+    }
+    .seekAttendance a {
+        display: none;
+    }
+    #printForm table {
+        width: 19cm;
+        max-width: fit-content;
+        border-collapse: collapse;
+    }
+    #printForm table tr th {
+        border: 1px solid black;
+        background-color: none;
+        text-wrap: wrap;
+        color: black;
+        width: 500px;
+    }
+    #printForm table tr td {
+        border: 1px solid black;
+        border-bottom: 1px solid black;
+        background-color: none;
+        text-wrap: wrap;
+        color: black;
+        padding: 1px;
+        width: 500px;
+    }
+    #printForm div:nth-child(1) button {
+        display: none;
+    }
+    #printForm table tr th:nth-last-child(1) {
+        display: none;
+    }
+    #printForm table tr th:nth-last-child(1) input {
+        display: none;
+    }
+    #printForm table tr td:nth-last-child(1){
+        display: none;
+    }
+    #printForm table tr td:nth-last-child(1) {
+        width: 5cm;
+    }
+    #printForm table tr th:nth-last-child(1) {
+        width: 5cm;
+    }
+    .program table tr td input {
+        display: none;
+    }
+
+}
+
+
 /* style configuration */
 body, html {
     margin: 0;

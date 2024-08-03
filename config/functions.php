@@ -334,7 +334,7 @@ class globalFunc {
                         echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
                         echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
                         echo "<td>" . $data['maklumat'] . "</td>";
-                        echo "<td><input type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
+                        echo "<td><input name=\"kodProgram[]\" type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
                     }
                 } else {
                     echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
@@ -553,11 +553,11 @@ class globalFunc {
     }
 
     // to add new murid, program or guru into database
-    function addToDB($DB, $a, $s) {
-        if($s === 'PROGRAM') {
-            $randCode = $this -> randCode('p');
-            $stmt = $DB -> prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt -> bind_param(
+    function addToDB($DB, $a, $s) { // return function
+        if ($s === 'PROGRAM') {
+            $randCode = $this->randCode('p');
+            $stmt = $DB->prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param(
                 "ssssssss",
                 $randCode,
                 $a['nama_program'],
@@ -568,48 +568,52 @@ class globalFunc {
                 $a['masa_tamat'],
                 $a['nokp']
             );
-            if($stmt->execute()) {
-                $stmt -> close;
+            if ($stmt->execute()) {
+                $stmt->close(); // Fixed method call
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        elseif($s === 'MURID') {
-            $stmt = $DB -> prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
-            $stmt -> bind_param(
-                "ssss", 
-                $a['noic'], 
-                $a['nama'], 
-                $a['jantina'], 
+        } elseif ($s === 'MURID') {
+            $stmt = $DB->prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param(
+                "ssss",
+                $a['noic'],
+                $a['nama'],
+                $a['jantina'],
                 $a['kelas']
             );
-            if($stmt->execute()) {
-                $stmt -> close;
+            if ($stmt->execute()) {
+                $stmt->close(); // Fixed method call
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        elseif($s === 'GURU') {
-            $stmt = $DB -> prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras) VALUES (?, ?, ?, ?, ?, 'PENGGUNA')");
-            $stmt -> bind_param(
-                "sssss", 
-                $a['nokp'], 
-                $a['katalaluan'], 
-                $a['nama_guru'], 
+        } elseif ($s === 'GURU') {
+            $stmt = $DB->prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras) VALUES (?, ?, ?, ?, ?, 'PENGGUNA')");
+            $stmt->bind_param(
+                "sssss",
+                $a['nokp'],
+                $a['katalaluan'],
+                $a['nama_guru'],
                 $a['jantina'],
                 $a['guru_matapelajaran']
             );
-            if($stmt->execute()) {
-                $stmt -> close;
+            if ($stmt->execute()) {
+                $stmt->close(); // Fixed method call
                 return true;
+            } else {
+                return false;
             }
-            else {
+        } elseif ($s === 'DELETE') {
+            $stmt = mysqli_prepare($DB, "DELETE FROM `program` WHERE `program`.`kodProgram` = ?");
+            mysqli_stmt_bind_param($stmt, "s", $a);
+            if ($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            } else {
                 return false;
             }
         }
-    }
+    }    
 }
