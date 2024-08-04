@@ -54,7 +54,7 @@
 @media print {
     /* program.php */
     html {
-        scale: 69%; /* set the scale for printing to 69% because the table won't fit */
+        scale: 90%; /* set the scale for printing to 69% because the table won't fit */
     }
     nav {
         display: none;
@@ -107,7 +107,7 @@
 body, html {
     margin: 0;
     padding: 0;
-    background-image: url("image/background.jpg");
+    background-image: url("image/background.png");
     background-position: center;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -328,6 +328,7 @@ nav div h4 {
  }
 .murid table tr td {
     border-bottom: var(--G4) solid 2px;
+    background-color: black;
     color: white;
     font-family: roboC-italic;
     font-size: large;
@@ -668,6 +669,86 @@ input[type='date']::-webkit-calendar-picker-indicator {
     }
 }
 
+.edit {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.edit form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.edit form label {
+    color: white;
+    font-family: roboC-bold;
+    font-size: larger;
+}
+.edit form input {
+    background-color: var(--G3);
+    color: white;
+    font-family: roboC-bold;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    text-align: center;
+    font-size: large;
+}
+.edit form select {
+    background-color: var(--G3);
+    color: white;
+    font-family: roboC-bold;
+    font-size: large;
+    text-align: center;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+}
+.edit form button {
+    background-color: rgba(0, 0, 0, 0);
+    font-family: roboC-italic;
+    font-size: large;
+    border: 2px solid white;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    margin: auto;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.edit form button:nth-child(10) {
+    border-radius: 10px 10px 0 0;
+}
+.edit form button:nth-child(11) {
+    border-radius: 0 0 10px 10px;
+}
+.edit form button:hover:nth-child(10) {
+    background-color: red;
+    font-family: roboC-bold;
+    color: black;
+    border: 2px solid red;
+}
+.edit form button:hover:nth-child(11) {
+    background-color: var(--C2);
+    font-family: roboC-bold;
+    color: black;
+    border: 2px solid var(--C2);
+}
+.edit form hr {
+    border-left-width: 100px;
+    border-right-width: 100px;
+}
+.edit form div {
+    color: white;
+    font-family: roboC-bold;
+}
+.edit small {
+    font-family: roboC-italic;
+    color: yellow;
+    text-align: center;
+}
+
 /* id */
 #greeting {
     font-family: roboC-bold;
@@ -696,6 +777,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     outline: none;
     position: fixed;
     color: white;
+
     font-family: bebas;
     top: 0;
     left: 0;
@@ -746,4 +828,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 #important_msg {
     color: red;
     font-family: roboC-bold;
+}
+
+#subtitle {
+    font-family: roboC-bold;
+    font-size: larger;
+    color: white;
+    text-align: center;
 }

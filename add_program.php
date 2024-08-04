@@ -15,7 +15,7 @@
         $masa_mula = $_POST['start-time'];
         $masa_tamat = $_POST['end-time'];
 
-        if($func->addToDB($cDB, [
+        if($func->fromDB($cDB, [
             'nama_program' => $nama_program,
             'maklumat' => $maklumat,
             'tempat' => $tempat,

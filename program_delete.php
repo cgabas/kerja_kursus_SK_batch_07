@@ -10,7 +10,7 @@ if (isset($_POST['delete'])) {
 
     if (!empty($listCode)) {
         foreach ($listCode as $x) {
-            if (!$func->addToDB($cDB, $x, 'DELETE')) {
+            if (!$func->fromDB($cDB, $x, 'DELETE')) {
                 echo "<script>alert('Terdapat Berlaku Kesalahan, Sila Cuba Lagi.');window.location = 'program.php';</script>";
             }
         }

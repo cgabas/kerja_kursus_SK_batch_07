@@ -4,7 +4,7 @@
 
     $func = new globalFunc;
     if(isset($_POST['submit'])) {
-        if($func -> addToDB($cDB, [
+        if($func -> fromDB($cDB, [
             'noic' => $_POST['KP'],
             'nama' => $_POST['name'],
             'jantina' => $_POST['gender'],

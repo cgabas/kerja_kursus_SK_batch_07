@@ -153,70 +153,73 @@ class globalFunc {
     }
 
     // to list avaliable row in 'murid' table based on what class
-    function murid($DB, $v, $vv, $s) { // procedure function
-        // search query passed through the second argument, $v
-        // kelas data passed through the third argument, $vv
-        // $s is for function switch
-        if($s === 'NOIC') {
+    function murid($DB, $v, $vv, $s) {
+        if ($s === 'NOIC') {
             $result = mysqli_query($DB, "SELECT noic FROM murid WHERE kelas = '$vv'");
-            if(mysqli_num_rows($result) > 0) {
-                while($data=mysqli_fetch_assoc($result)) {
+            if (mysqli_num_rows($result) > 0) {
+                while ($data = mysqli_fetch_assoc($result)) {
                     $array[] = $data['noic'];
                 }
             }
             else {
                 return false;
             }
-            // shorthand if else, return false if array is empty
-            return !empty($array) ? $array:false;
+            return !empty($array) ? $array : false;
         }
-        else {
-            if (empty($v)) { // if searchbox is empty
-                $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
-
-                if (mysqli_num_rows($result) > 0) {
-                    echo "<tr><th>Nombor IC</th>";
-                    echo "<th>Nama Murid</th>";
-                    echo "<th>Jantina</th>";
-                    echo "<th>Kelas</th></tr>";
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        echo "<tr><td>" . $data['noic'] . "</td>";
-                        echo "<td>" . $data['nama'] . "</td>";
-                        echo "<td>" . $data['jantina'] . "</td>";
-                        echo "<td>" . $data['kelas'] . "</td></tr>";
-                    }
-                }
-                else {
-                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                    echo "<h1>Tiada Murid Yang Menyertai</h1></div>";
+    
+        if ($s === 'MURID') {
+            if (!empty($v)) {
+                $query = "SELECT * FROM murid WHERE nama LIKE '$v%'";
+            }
+            else {
+                $query = "SELECT * FROM murid";
+            }
+    
+            $result = mysqli_query($DB, $query);
+            if (mysqli_num_rows($result) > 0) {
+                echo "<tr><th>Nombor IC</th>";
+                echo "<th>Nama Murid</th>";
+                echo "<th>Jantina</th>";
+                echo "<th>Kelas</th></tr>";
+                while ($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td><a href=\"edit_murid_process.php\" onclick=\"callFunc.sendCookie('nama', '".$data['nama']."'); callFunc.sendCookie('noic', '".$data['noic']."', 'em');\">" . $data['noic'] . "</td>";
+                    echo "<td>" . $data['nama'] . "</td>";
+                    echo "<td>" . $data['jantina'] . "</td>";
+                    echo "<td>" . $data['kelas'] . "</td></tr>";
                 }
             }
             else {
-                $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv' AND nama LIKE '$v%'");
-                if (mysqli_num_rows($result) > 0) {
-                    echo "<tr><th>Nombor IC</th>";
-                    echo "<th>Nama Murid</th>";
-                    echo "<th>Jantina</th>";
-                    echo "<th>Kelas</th></tr>";
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        echo "<tr><td>" . $data['noic'] . "</td>";
-                        echo "<td>" . $data['nama'] . "</td>";
-                        echo "<td>" . $data['jantina'] . "</td>";
-                        echo "<td>" . $data['kelas'] . "</td></tr>";
-                    }
+                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>Tiada Murid Yang Menyertai</h1></div>";
+            }
+        }
+        else {
+            $query = empty($v) ? "SELECT * FROM murid WHERE kelas='$vv'" : "SELECT * FROM murid WHERE kelas='$vv' AND nama LIKE '$v%'";
+            $result = mysqli_query($DB, $query);
+            if (mysqli_num_rows($result) > 0) {
+                echo "<tr><th>Nombor IC</th>";
+                echo "<th>Nama Murid</th>";
+                echo "<th>Jantina</th>";
+                echo "<th>Kelas</th></tr>";
+                while ($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td>" . $data['noic'] . "</td>";
+                    echo "<td>" . $data['nama'] . "</td>";
+                    echo "<td>" . $data['jantina'] . "</td>";
+                    echo "<td>" . $data['kelas'] . "</td></tr>";
                 }
-                else {
-                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                    echo "<h1>Nama Tidak Dijumpai</h1></div>";
-                }
+            }
+            else {
+                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>" . (empty($v) ? "Tiada Murid Yang Menyertai" : "Nama Tidak Dijumpai") . "</h1></div>";
             }
         }
     }
+    
 
     /* 
         same as the previous function 'function murid()' but for guru, 
         will list both admin and user(guru)
-        */
+    */
     function guru($DB, $v, $s) { // procedure/return function
 
         // to return an array 
@@ -553,7 +556,17 @@ class globalFunc {
     }
 
     // to add new murid, program or guru into database
-    function addToDB($DB, $a, $s) { // return function
+    function fromDB($DB, $a, $s) { // return function
+         // (execStmt) use if not intending to return data other than true or false
+        function execStmt($stmt) {
+            if ($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         if ($s === 'PROGRAM') {
             $randCode = $this->randCode('p');
             $stmt = $DB->prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -568,13 +581,9 @@ class globalFunc {
                 $a['masa_tamat'],
                 $a['nokp']
             );
-            if ($stmt->execute()) {
-                $stmt->close(); // Fixed method call
-                return true;
-            } else {
-                return false;
-            }
-        } elseif ($s === 'MURID') {
+            execStmt($stmt);
+        } 
+        elseif ($s === 'MURID') {
             $stmt = $DB->prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
             $stmt->bind_param(
                 "ssss",
@@ -583,13 +592,9 @@ class globalFunc {
                 $a['jantina'],
                 $a['kelas']
             );
-            if ($stmt->execute()) {
-                $stmt->close(); // Fixed method call
-                return true;
-            } else {
-                return false;
-            }
-        } elseif ($s === 'GURU') {
+            execStmt($stmt);
+        }
+        elseif ($s === 'GURU') {
             $stmt = $DB->prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras) VALUES (?, ?, ?, ?, ?, 'PENGGUNA')");
             $stmt->bind_param(
                 "sssss",
@@ -599,21 +604,93 @@ class globalFunc {
                 $a['jantina'],
                 $a['guru_matapelajaran']
             );
-            if ($stmt->execute()) {
-                $stmt->close(); // Fixed method call
-                return true;
-            } else {
-                return false;
-            }
-        } elseif ($s === 'DELETE') {
+            execStmt($stmt);
+        }
+        elseif ($s === 'DELETE') {
             $stmt = mysqli_prepare($DB, "DELETE FROM `program` WHERE `program`.`kodProgram` = ?");
             mysqli_stmt_bind_param($stmt, "s", $a);
-            if ($stmt->execute()) {
-                $stmt->close(); // Fixed method call
-                return true;
-            } else {
+            execStmt($stmt);
+        }
+        elseif($s === 'LIST_PROGRAM') {
+            $return = mysqli_query($DB, "SELECT * FROM program WHERE kodProgram = '$a'");
+            if($return -> num_rows > 0) {
+                while($data = mysqli_fetch_assoc($return)) {
+                    return $data['nama_program'];
+                }
+            }
+            else {
                 return false;
             }
+
         }
+        elseif ($s === 'EDIT_MURID') {
+            $update_query_clause = [];
+            $params = [];
+            $types = '';
+        
+            // Collect update fields
+            if (isset($a['nama']) && !empty($a['nama'])) {
+                $update_query_clause[] = 'nama = ?';
+                $types .= 's';
+                $params[] = $a['nama'];
+            }
+        
+            if (isset($a['kelas']) && !empty($a['kelas']) && $a['kelas'] !== 'NULL') {
+                $update_query_clause[] = 'kelas = ?';
+                $types .= 's';
+                $params[] = $a['kelas'];
+            }
+        
+            if (isset($a['jantina']) && !empty($a['jantina'])) {
+                $update_query_clause[] = 'jantina = ?';
+                $types .= 's';
+                $params[] = $a['jantina'];
+            }
+        
+            if (isset($a['noic']) && !empty($a['noic'])) {
+                $update_query_clause[] = 'noic = ?';
+                $params[] = $a['noic'];
+                $types .= 's'; // For 'noic'
+            }
+        
+            if (!empty($update_query_clause)) {
+                $old_noic = $a['noic_for_refe'];
+                if ($old_noic === NULL) {
+                    echo "<script>alert('No reference noic provided.');</script>";
+                    return false;
+                }
+                $params[] = $old_noic;
+                $types .= 's';
+        
+                $set_update_clause = implode(', ', $update_query_clause);
+                $query = "UPDATE murid SET $set_update_clause WHERE noic = ?";
+        
+                $stmt = $DB->prepare($query);
+        
+                if (!$stmt) {
+                    echo "<script>alert('Prepare failed: " . $DB->error . "'); </script>";
+                    return false;
+                }
+        
+                // Bind parameters
+                $stmt->bind_param($types, ...$params);
+        
+                if ($stmt->errno) {
+                    echo "<script>alert('Bind failed: " . $stmt->error . "'); </script>";
+                    return false;
+                }
+        
+                // Execute the statement
+                if (execStmt($stmt)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }        
     }    
 }

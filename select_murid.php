@@ -28,6 +28,7 @@
             <h1>Pilihan Lain</h1>
             <button onclick="window.location='select_kelas_attendance.php'">Lihat Kehadiran Murid</button>
             <button onclick="window.location='add_murid.php'">Daftar Murid Baharu</button>
+            <button onclick="window.location='edit_murid.php'">Sunting Maklumat Murid</button>
             <a href="main_page.php">Menu Utama</a>
         </div>
     </body>

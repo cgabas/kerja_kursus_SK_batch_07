@@ -13,6 +13,7 @@ $func = new globalFunc;
             <!-- access the 'kelas' name using $_COOKIE[] function  -->
             Kehadiran Murid Untuk Kelas <?php echo $_COOKIE['kelas'];?>
         </h3>
+        <h4 id="subtitle">Program: <?php echo $func -> fromDB($cDB, $_COOKIE['kod'], 'LIST_PROGRAM');?></h4>
         <div class="murid">  
             <table>
                 <tr>
@@ -36,7 +37,8 @@ $func = new globalFunc;
                 ?>
             </table>
         </div>
-        <div class="seekAttendance">
+        <div class="seekAttendance" style="flex-direction: row;">
+            <a href="main_page.php">Laman Utama</a>
             <a href="#" onclick="window.print();">Cetak</a>
         </div>
     </body>

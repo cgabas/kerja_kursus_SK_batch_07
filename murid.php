@@ -25,7 +25,7 @@
                 <?php
                     $func = new globalFunc;
                     $search = (isset($_POST['submit']))?$_POST['search']:NULL;
-                    $func -> murid($cDB, $search, $_COOKIE['kelas'], 'FORM');
+                    $func -> murid($cDB, $search, $_COOKIE['kelas'], NULL);
                 ?>
             </table>
         </div>
