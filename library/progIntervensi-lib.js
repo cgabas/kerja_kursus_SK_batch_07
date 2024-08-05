@@ -14,6 +14,9 @@ const callFunc = {
             case 'em':
                 window.location = "edit_murid_process.php";
                 break;
+            case 'eg':
+                window.location = "edit_guru_process.php";
+                break;
         }
     },
 
@@ -32,7 +35,32 @@ const callFunc = {
         const title = document.getElementById("programName");
 
         title.textContent = input.value.length === 0 ? "Nama Program" : input.value;
-    }
+    },
+
+    userConfirm: function(event, switchType = null) {
+        let userConfirmed = false;
+        
+        // Display the confirmation dialog based on the switchType
+        if (switchType === 'MURID') {
+            userConfirmed = confirm('Adakah Anda Pasti Untuk Menyingkirkan Murid Ini? Murid Ini Tidak Akan Wujud Lagi Dalam Pangkalan Data Selepas Ini.');
+        }
+        else if (switchType === 'GURU') {
+            userConfirmed = confirm('Adakah Anda Pasti Untuk Menyingkirkan Guru Ini? Guru Ini Tidak Akan Wujud Lagi Dalam Pangkalan Data Selepas Ini.');
+        }
+
+        // Check the user's response
+        if (!userConfirmed) {
+            // Prevent the default action if the user clicks "Cancel"
+            event.preventDefault();
+            return false;
+        }
+        else {
+            // Send a cookie if the user clicks "OK"
+            document.cookie = "confirm=true";
+        }
+    
+        return true;
+    }    
 };
 
 // set this object globally so that it can be accessed outside the script

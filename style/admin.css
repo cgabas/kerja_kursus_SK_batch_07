@@ -278,9 +278,10 @@ nav div h4 {
 }
 .guru table tr th:nth-last-child(1) {
     border-radius: 0 10px 10px 0;
-}
+ }
 .guru table tr td {
     border-bottom: var(--G4) solid 2px;
+    background-color: black;
     color: white;
     font-family: roboC-italic;
     font-size: large;
@@ -419,6 +420,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 .program table tr td {
     border-bottom: var(--G4) solid 2px;
+    background-color: black;
     color: white;
     font-family: roboC-italic;
     padding: 5px;
@@ -553,6 +555,160 @@ input[type='date']::-webkit-calendar-picker-indicator {
     color: black;
     border: none;
     text-decoration: underline;
+}
+
+.addGuru {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    max-width: fit-content;
+    margin: auto;
+}
+.addGuru h1 {
+    font-family: bebas;
+    color: white;
+}
+.addGuru hr {
+    border-left-width: 300px;
+    border-right-width: 300px;
+    animation-name: displayLine;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+}
+.addGuru form button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-family: roboC-bold;
+    background-color: var(--G4);
+    font-size: large;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.addGuru form button:hover {
+    background-color: var(--G5);
+}
+.addGuru form table tr td label {
+    color: white;
+    font-family: roboC-bold;
+    font-size: larger
+}
+.addGuru form table tr td input,
+.addGuru form table tr td select {
+    background-color: var(--G3);
+    padding: 5px 20px 5px 20px;
+    color: white;
+    font-family: roboC;
+    font-size: large;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+.addGuru form table tr td {
+    color: white;
+    font-family: roboC;
+    font-size: large;
+}
+@keyframes displayLine {
+    0% {
+        border-left-width: 0;
+        border-right-width: 0;
+    }
+    100% {
+        border-left-width: 300px;
+        border-right-width: 300px;
+    }
+}
+
+.edit {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.edit form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.edit form label {
+    color: white;
+    font-family: roboC-bold;
+    font-size: larger;
+}
+.edit form input {
+    background-color: var(--G3);
+    color: white;
+    font-family: roboC-bold;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    text-align: center;
+    font-size: large;
+}
+.edit form select {
+    background-color: var(--G3);
+    color: white;
+    font-family: roboC-bold;
+    font-size: large;
+    text-align: center;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+}
+.edit form button {
+    background-color: rgba(0, 0, 0, 0);
+    font-family: roboC-italic;
+    font-size: large;
+    border: 2px solid white;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    margin: auto;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.edit form button:nth-child(12) {
+    border-radius: 10px 10px 0 0;
+}
+.edit form button:nth-child(14) {
+    border-radius: 0 0 10px 10px;
+}
+.edit form button:hover:nth-child(12) {
+    background-color: orange;
+    font-family: roboC-bold;
+    color: black;
+    border: 2px solid orange;
+}
+.edit form button:hover:nth-child(13) {
+    background-color: red;
+    font-family: roboC-bold;
+    text-decoration: underline;
+    color: black;
+    border: 2px solid red;
+}
+.edit form button:hover:nth-child(14) {
+    background-color: var(--C2);
+    font-family: roboC-bold;
+    color: black;
+    border: 2px solid var(--C2);
+}
+.edit form hr {
+    border-left-width: 100px;
+    border-right-width: 100px;
+}
+.edit form div {
+    color: white;
+    font-family: roboC-bold;
+}
+.edit small {
+    font-family: roboC-italic;
+    color: yellow;
+    text-align: center;
 }
 
 /* id */

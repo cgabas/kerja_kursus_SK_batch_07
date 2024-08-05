@@ -65,10 +65,11 @@
                         <select name="nokp" id="nokp">
                             <?php
                                 $guru = $func->guru($cDB, NULL, 'LIST');
-                                foreach($guru['nokp'] as $x) {
-                                    foreach($guru['nama_guru'] as $y) {
-                                        echo "<option value=\"$x\">$y</option>";
-                                    }
+                                for($i = 0; $i < count($guru['nokp']); $i++) {
+                                    $nokp = $guru['nokp'][$i];
+                                    $nama_guru = $guru['nama_guru'][$i];
+                                    $matapelajaran = $guru['guru_matapelajaran'][$i];
+                                    echo "<option value=\"$nokp\">$nama_guru ($matapelajaran)</option>";
                                 }
                             ?>
                         </select>

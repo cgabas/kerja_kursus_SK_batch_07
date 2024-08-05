@@ -445,31 +445,45 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 .recordMessage {
+    box-shadow: 0 0 0 white;
     position: absolute;
     left: 50%;
     top: 50%;
-    background-color: var(--G4);
+    background-color: var(--G3);
     transform: translate(-50%, -50%);
     text-align: center;
+    padding: 15px;
+    border-radius: 15px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.recordMessage:hover {
+    background-color: var(--G4);
+    box-shadow: 10px 10px 5px rgba(255, 255, 255, 0.5);
 }
 .recordMessage h1 {
     color: white;
     font-family: bebas;
+    font-size: 250%;
     text-align: center;
 }
 .recordMessage h3 {
     color: black;
     font-family: roboC-bold;
+    font-size: 100%;
 }
 .recordMessage small {
     color: black;
     font-family: roboC-italic;
+    font-size: large;
 }
 .recordMessage ul {
     padding: 10px;
 }
 .recordMessage ul li {
     font-family: roboC;
+    font-size: large;
+    text-wrap: nowrap;
 }
 
 .record {
@@ -488,11 +502,15 @@ input[type='date']::-webkit-calendar-picker-indicator {
     color: white;
     font-family: roboC-bold;
 }
+.record p {
+    text-align: center;
+}
 .record div img {
     background-image: var(--img-bg);
 }
 .record table tr th {
-    padding: 10px;
+    padding: 15px;
+    font-size: 150%;
     font-family: roboC-bold;
     text-align: center;
     background-color: var(--G4);
@@ -507,8 +525,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
     color: white;
     font-family: roboC-MItalic;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
+    font-size: 120%;
     border-bottom: white dashed 1px;
+    background-color: black;
 }
 .record button {
     background-color: var(--G1);
@@ -720,16 +740,23 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .edit form button:nth-child(10) {
     border-radius: 10px 10px 0 0;
 }
-.edit form button:nth-child(11) {
+.edit form button:nth-child(12) {
     border-radius: 0 0 10px 10px;
 }
 .edit form button:hover:nth-child(10) {
+    background-color: orange;
+    font-family: roboC-bold;
+    color: black;
+    border: 2px solid orange;
+}
+.edit form button:hover:nth-child(11) {
     background-color: red;
     font-family: roboC-bold;
     color: black;
     border: 2px solid red;
+    text-decoration: underline;
 }
-.edit form button:hover:nth-child(11) {
+.edit form button:hover:nth-child(12) {
     background-color: var(--C2);
     font-family: roboC-bold;
     color: black;

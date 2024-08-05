@@ -21,6 +21,30 @@ class globalFunc {
         "Harmoni",
         "Iltizam"
     ];
+    const matapelajaran = [
+        // core subject
+        "Inggeris",
+        "Melayu",
+        "Matematik",
+        "Sains",
+        "Sejarah",
+
+        // elective subject
+        "Pendidikan Moral",
+        "Pendidikan Islam",
+        "Cina",
+        "Iban",
+        "Ekonomi",
+        "Perniagaan",
+        "Reka Cipta",
+        "PSV",
+        "Sains Komputer",
+        "Sastera",
+        "Biologi",
+        "Kimia",
+        "Fizik",
+        "Matematik Tambahan"
+    ];
     // generate random 7 letters code with some prefix you can add
     function randCode($pf) { // return function
         $randBytes = random_bytes(3); // generate 3 bytes of random code
@@ -233,12 +257,38 @@ class globalFunc {
                     }
                     $nokp[] = $data['nokp'];
                     $nama[] = $data['nama_guru'];
+                    $matapelajaran[] = $data['guru_matapelajaran'];
                 }
 
                 return [
                     'nokp' => $nokp,
-                    'nama_guru' => $nama
+                    'nama_guru' => $nama,
+                    'guru_matapelajaran' => $matapelajaran
                 ];
+            }
+        }
+        elseif($s === 'GURU') {
+            if(!empty($v) || isset($v)) {
+                $result = mysqli_query($DB, "SELECT * FROM guru WHERE nama_guru = '$v'");
+            }
+            else {
+                $result = mysqli_query($DB, "SELECT * FROM guru");
+            }
+            
+            if (mysqli_num_rows($result) > 0) {
+                echo "<tr><th>Nombor KP</th>";
+                echo "<th>Nama Guru</th>";
+                echo "<th>Jantina</th>";
+                echo "<th>Guru Matapelajaran</th></tr>";
+                while ($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td><a href=\"edit_guru_process.php\" onclick=\"callFunc.sendCookie('nama_guru', '".$data['nama_guru']."'); callFunc.sendCookie('nokp', '".$data['nokp']."', 'eg');\">" . $data['nokp'] . "</td>";
+                    echo "<td>" . $data['nama_guru'] . "</td>";
+                    echo "<td>" . $data['jantina'] . "</td>";
+                    echo "<td>" . $data['guru_matapelajaran'] . "</td></tr>";
+                }
+            } else {
+                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>Tiada Guru Yang Terlibat</h1></div>";
             }
         }
         else {
@@ -461,7 +511,7 @@ class globalFunc {
                 echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
             }
             echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
-            echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja untuk setiap program. Sila semak semula sebelum merekod.</p>";
+            echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja<br> untuk setiap program. Sila semak semula sebelum merekod.</p>";
         }
         else {
             echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
@@ -488,7 +538,7 @@ class globalFunc {
 
         // Execute the statement and check if successful
         if ($stmt->execute()) {
-            $stmt -> close;
+            $stmt -> close();
             return [
                 'noic' => $noic,
                 'kodKehadiran' => $randC,
@@ -557,16 +607,6 @@ class globalFunc {
 
     // to add new murid, program or guru into database
     function fromDB($DB, $a, $s) { // return function
-         // (execStmt) use if not intending to return data other than true or false
-        function execStmt($stmt) {
-            if ($stmt->execute()) {
-                $stmt->close(); // Fixed method call
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
         if ($s === 'PROGRAM') {
             $randCode = $this->randCode('p');
             $stmt = $DB->prepare("INSERT INTO program (kodProgram, nama_program, maklumat, tempat, tarikh, masa_mula, masa_tamat, nokp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -581,7 +621,14 @@ class globalFunc {
                 $a['masa_tamat'],
                 $a['nokp']
             );
-            execStmt($stmt);
+
+            if($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            }
+            else {
+                return false;
+            }
         } 
         elseif ($s === 'MURID') {
             $stmt = $DB->prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
@@ -592,7 +639,15 @@ class globalFunc {
                 $a['jantina'],
                 $a['kelas']
             );
-            execStmt($stmt);
+
+            // Execute the statement
+            if($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         elseif ($s === 'GURU') {
             $stmt = $DB->prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras) VALUES (?, ?, ?, ?, ?, 'PENGGUNA')");
@@ -602,15 +657,47 @@ class globalFunc {
                 $a['katalaluan'],
                 $a['nama_guru'],
                 $a['jantina'],
-                $a['guru_matapelajaran']
+                $a['matapelajaran']
             );
-            execStmt($stmt);
+
+            // Execute the statement
+            if($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        elseif ($s === 'DELETE') {
+        elseif($s === 'DELETE') {
             $stmt = mysqli_prepare($DB, "DELETE FROM `program` WHERE `program`.`kodProgram` = ?");
             mysqli_stmt_bind_param($stmt, "s", $a);
-            execStmt($stmt);
+            if($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            }
+            else {
+                return false;
+            }
         }
+        elseif ($s === 'DELETE_ROW') {
+            if ($a['switch'] === 'GURU') {
+                $stmt = mysqli_prepare($DB, "DELETE FROM guru WHERE nokp = ?");
+                mysqli_stmt_bind_param($stmt, "s", $a['nokp']);
+            }
+            else {
+                $stmt = mysqli_prepare($DB, "DELETE FROM murid WHERE noic = ?");
+                mysqli_stmt_bind_param($stmt, "s", $a['noic']);
+            }
+            
+            if($stmt->execute()) {
+                $stmt->close(); // Fixed method call
+                return true;
+            }
+            else {
+                return false;
+            }
+        }        
         elseif($s === 'LIST_PROGRAM') {
             $return = mysqli_query($DB, "SELECT * FROM program WHERE kodProgram = '$a'");
             if($return -> num_rows > 0) {
@@ -681,10 +768,81 @@ class globalFunc {
                 }
         
                 // Execute the statement
-                if (execStmt($stmt)) {
+                if($stmt->execute()) {
+                    $stmt->close(); // Fixed method call
                     return true;
                 }
                 else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        elseif ($s === 'EDIT_GURU') {
+            $update_query_clause = [];
+            $params = [];
+            $types = '';
+        
+            // Collect update fields
+            if (!empty($a['nama_guru'])) {
+                $update_query_clause[] = 'nama_guru = ?';
+                $types .= 's';
+                $params[] = $a['nama_guru'];
+            }
+        
+            if (!empty($a['matapelajaran']) && $a['matapelajaran'] !== 'NULL') {
+                $update_query_clause[] = 'guru_matapelajaran = ?';
+                $types .= 's';
+                $params[] = $a['matapelajaran'];
+            }
+        
+            if (!empty($a['jantina'])) {
+                $update_query_clause[] = 'jantina = ?';
+                $types .= 's';
+                $params[] = $a['jantina'];
+            }
+        
+            if (!empty($a['katalaluan'])) {
+                $update_query_clause[] = 'katalaluan = ?';
+                $types .= 's';
+                $params[] = $a['katalaluan'];
+            }
+        
+            if (!empty($a['nokp'])) {
+                $update_query_clause[] = 'nokp = ?';
+                $types .= 's';
+                $params[] = $a['nokp'];
+            }
+        
+            if (!empty($update_query_clause)) {
+                $old_noic = $a['nokp_for_refe'];
+                $params[] = $old_noic;
+                $types .= 's';
+        
+                $set_update_clause = implode(', ', $update_query_clause);
+                $query = "UPDATE guru SET $set_update_clause WHERE nokp = ?";
+        
+                $stmt = $DB->prepare($query);
+        
+                if (!$stmt) {
+                    echo "<script>alert('Prepare failed: " . $DB->error . "');</script>";
+                    return false;
+                }
+        
+                $stmt->bind_param($types, ...$params);
+        
+                if ($stmt->errno) {
+                    echo "<script>alert('Bind failed: " . $stmt->error . "');</script>";
+                    return false;
+                }
+        
+                if ($stmt -> execute()) {
+                    return true;
+                }
+                else {
+                    echo "<script>alert('Execute failed: " . $stmt->error . "');</script>";
                     return false;
                 }
             }
