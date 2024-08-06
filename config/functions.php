@@ -670,14 +670,23 @@ class globalFunc {
             }
         }
         elseif($s === 'DELETE') {
-            $stmt = mysqli_prepare($DB, "DELETE FROM `program` WHERE `program`.`kodProgram` = ?");
-            mysqli_stmt_bind_param($stmt, "s", $a);
-            if($stmt->execute()) {
-                $stmt->close(); // Fixed method call
-                return true;
-            }
-            else {
-                return false;
+            // rows from kehadiran must be deleted first before deleting program inside program table
+            // delete every related rows on kehadiran table, then delete program
+            $deleteRows = mysqli_prepare($DB, "DELETE FROM `kehadiran` WHERE kodProgram = ?");
+            mysqli_stmt_bind_param($deleteRows, "s", $a);
+
+            // then delete row on program
+            if(mysqli_stmt_execute($deleteRows)) {
+                $stmt = mysqli_prepare($DB, "DELETE FROM `program` WHERE `program`.`kodProgram` = ?");
+                mysqli_stmt_bind_param($stmt, "s", $a);
+                if($stmt->execute()) {
+                    $stmt->close(); // Fixed method call
+                    $deleteRows->close();
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
         }
         elseif ($s === 'DELETE_ROW') {
