@@ -70,11 +70,14 @@ __English__: This system with the name "__Intervention Program System__" can rec
    - [Database + tables](https://drive.google.com/drive/folders/17mYzm09Z2iTto87RjVU7fPn2zCUCwq5_?usp=sharing) only, no data included
    - [Database + tables + dummy data](https://drive.google.com/file/d/11H3kvz6VM49Ag_Avni7cltcJDmDrO4DE/view?usp=sharing), if you don't want to fill out the data manualy
 
-2. After downloading, unzip the folder and you should get a file called `sistem-program-intervensiDB.sql`, and make sure you know where the file's location is.
+2. After downloading, unzip the folder and you should get a file called `programintervensi.sql` or `programintervensi(empty set).sql` if you downloaded the first option, and make sure you know where the file's location is.
 
-3. Open up "phpMyAdmin" and click on the Import tab.
+3. Open up "phpMyAdmin" and create a new database called `programintervensi`.
 
-   ![Import DB](style/image/PHPMYADMIN3.JPG "Choose your file")
+   ![Import DB](style/image/PHPMYADMIN4.JPG "Paste Your Code")
 
-> [!NOTE]
-> You also can just leave it like that, `.zip`, and import the zip file itself.
+4. Copy and paste from the previously downloaded file (`programintervensi.sql`) and paste it into the text editor inside the page.
+
+5. Click `GO` button.
+
+6. After that, you should get a working database from that file.
