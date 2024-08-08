@@ -863,3 +863,17 @@ input[type='date']::-webkit-calendar-picker-indicator {
     color: white;
     text-align: center;
 }
+
+#headerStyle {
+    font-family: bebas;
+    font-size: 300%;
+    color: white;
+    animation-name: fade-IN;
+    animation-duration: 1.5s;
+    animation-timing-function: ease;
+}
+@keyframes fade-IN {
+    0% {color: black;}
+    50% {color: black;}
+    100% {color: white;}
+}
