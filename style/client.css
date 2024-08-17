@@ -110,7 +110,7 @@ body, html {
     background-image: url("image/background.png");
     background-position: center;
     background-attachment: fixed;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: cover;
 }
 
@@ -774,6 +774,111 @@ input[type='date']::-webkit-calendar-picker-indicator {
     font-family: roboC-italic;
     color: yellow;
     text-align: center;
+}
+
+.import,
+.import div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.import {
+    margin: 20px 0 0 0;
+    gap: 10px;
+}
+.import h1 {
+    color: white;
+    font-family: bebas;
+    background-image: var(--greeting);
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+.import div:nth-child(2) {
+    background-color: var(--G3);
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+.import div:nth-child(2) div form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 15px;
+}
+.import div:nth-child(2) p,
+.import div:nth-child(2) small {
+    color: white;
+    font-family: roboC-bold;
+}
+.import div:nth-child(2) p {
+    font-size: large;
+}
+.import div:nth-child(2) div form p {
+    font-family: bebas;
+    color: white;
+    font-size: 200%;
+    margin-bottom: 0;
+}
+.import div:nth-child(2) div small small {
+    color: gold;
+    font-family: roboC;
+}
+.import div:nth-child(2) div form hr {
+    border-left-width: 120px;
+    border-right-width: 120px;
+}
+.import div:nth-child(2) div form label,
+.import div:nth-child(2) div form #import {
+    display: inline-block;
+    color: white;
+    font-family: roboC;
+    padding: 10px 20px;
+    background-color: var(--G4);
+    border-radius: 10px;
+    border: none;
+    transition: 0.2s;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 1px 1px 10px black;
+}
+.import div:nth-child(2) div form label {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.import div:nth-child(2) div form #import {
+    width: 100%;
+    font-family: roboC-bold;
+    font-size: 150%;
+    text-align: center;
+}
+.import div:nth-child(2) div form label:hover,
+.import div:nth-child(2) div form #import:hover {
+    background-color: var(--C2);
+    box-shadow: 5px 5px 5px black;
+}
+.import div:nth-child(2) div form input {
+    display: none;
+}
+.import center p {
+    color: yellow;
+    font-family: roboC-bold;
+}
+.import center h3 {
+    font-family: roboC-bold;
+    color: white;
+}
+.import center table tr td {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: solid 1px white;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    font-family: roboC;
+}
+.import center table {
+    border-collapse: collapse;
 }
 
 /* id */

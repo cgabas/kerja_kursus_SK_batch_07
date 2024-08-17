@@ -19,5 +19,8 @@
             <?php $func -> todaysProgram($cDB, true); ?>
          </table>
        </div>
+       <div class="seekAttendance">
+          <a href="main_page.php">Menu Utama</a>
+       </div>
     </body>
  </html>

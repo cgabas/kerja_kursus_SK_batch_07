@@ -1,12 +1,14 @@
 <?php
     // database configuration
-    $host = "localhost"; //or 127.0.0.1
-    $user = "root";
-    $pass = "";
-    $DB = "programintervensi";
+    $config = parse_ini_file("mysql_config_server/server.ini", true);
 
     //create a connection to database
-    $cDB = new mysqli($host, $user, $pass, $DB);
+    $cDB = new mysqli(
+        $config['database']['host'],
+        $config['database']['username'],
+        $config['database']['password'],
+        $config['database']['database']
+    );
 
     //check connection
     if(!$cDB) {

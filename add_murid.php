@@ -56,6 +56,10 @@
                     </tr>
                 </table>
                 <button type="submit" name="submit">Daftar</button>
+                <button type="button" onclick="window.location = 'import_murid.php';">Import Maklumat Murid</button>
+                <div class="seekAttendance">
+                    <a href="main_page.php">Menu Utama</a>
+                </div>
             </form>
         </div>
     </body>

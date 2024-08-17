@@ -27,7 +27,7 @@
             </table>
         </div>
         <div class="seekAttendance" style="display: block; margin-top: 10px;">
-            <a href="main_page_admin.php">Laman Utama</a>
+            <a href="main_page_admin.php">Menu Utama</a>
             <a href="#" onclick="window.print();">Cetak</a>
         </div>
     </body>

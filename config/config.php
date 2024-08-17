@@ -37,6 +37,6 @@
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
         <link rel=\"stylesheet\" type=\"text/css\" href=\"style/admin.css\">
         <link rel=\"icon\" href=\"style/image/system_icon.ico\" type=\"image/x-icon\"/>
-        <title>E-Admin</title>
+        <title>E-Kehadiran Admin</title>
     </head>
     ";

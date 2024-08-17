@@ -60,7 +60,22 @@ const callFunc = {
         }
     
         return true;
-    }    
+    },
+
+    // send 2 elements into parameter
+    checkFile: function(idFile, idFileName, msg) {
+        // detect file selection
+        idFile.addEventListener('change', function(){
+            if(this.files.length > 0) {
+                idFileName.textContent = this.files[0].name;
+                msg.textContent = "File Yang Dipilih";
+            }
+            else {
+                idFileName.textContent = "Tiada File Yang Dipilih";
+                msg.textContent = "";
+            }
+        });
+    }
 };
 
 // set this object globally so that it can be accessed outside the script

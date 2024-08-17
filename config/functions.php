@@ -9,6 +9,15 @@
 
     RULE OF THUMB: always encapsulate variables with quotes `'` when writing a query to prevent errors.
 */
+
+// import PHP files here, just make sure to label the use of each file
+
+//  PhpSpreadSheet library, downloaded using Composer PHP library installer
+// NOTE: import path will be affected by the file(who currently using functions.php) location
+require "library/vendor/autoload.php";
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+// single class here, widely used on every PHP file inside this directory
 class globalFunc {
     const kelas = [
         "Arif",
@@ -121,10 +130,10 @@ class globalFunc {
             session_write_close();
             mysqli_stmt_close($stmt);
             if ($data['aras'] === 'ADMIN') {
-                header("Location: main_page_admin.php");
+                echo "<script>alert('Selamat Datang Admin'); window.location = 'main_page_admin.php';</script>";
             }
             else {
-                header("Location: main_page.php");
+                echo "<script>alert('Selamat Datang ".$data['nama_guru']."'); window.location = 'main_page.php';</script>";
             }
         }
         else {
@@ -512,6 +521,7 @@ class globalFunc {
             }
             echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
             echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja<br> untuk setiap program. Sila semak semula sebelum merekod.</p>";
+            echo "<div class=\"seekAttendance\"><a href=\"main_page.php\">Menu Utama</a></div>";
         }
         else {
             echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
@@ -650,7 +660,8 @@ class globalFunc {
             }
         }
         elseif ($s === 'GURU') {
-            $stmt = $DB->prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras) VALUES (?, ?, ?, ?, ?, 'PENGGUNA')");
+            $stmt = $DB->prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras)
+             VALUES (?, ?, ?, ?, ?, 'PENGGUNA')"); // set aras as PENGGUNA by default
             $stmt->bind_param(
                 "sssss",
                 $a['nokp'],
@@ -859,5 +870,119 @@ class globalFunc {
                 return false;
             }
         }        
+    }
+
+    // to import murid's data
+    function importFile($DB, $a, $s) {
+        if($s === "EXCEL") {
+            try {
+                // load up given spreadsheet using PHPSpreadSheet library
+                $spreadSheet = IOFactory::load($a['tmp_name']);
+                $getSheet = $spreadSheet -> getActiveSheet();
+                $fileData = $getSheet -> toArray();
+                $uploadStmt = true; // Track overall success
+                
+                // check if spreadsheet given have more or less column than suggested
+                /* 
+                    NOTE: the statement `count($fileData)>5` exist because when converting spreadsheet
+                    into array, there is an extra index added to the array and this cannot be avoided
+                    nor fixed
+                */
+                if(count($fileData) < 4 || count($fileData) > 5) {
+                    foreach($fileData as $y) {
+                        // Ensure correct column indices
+                        $noic = $y[0] ?? '';
+                        $nama = $y[1] ?? '';
+                        $jantina = $y[2] ?? '';
+                        $kelas = $y[3] ?? '';
+                        
+                        // do mysql data insertion
+                        $stmt = $DB -> prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
+                        if($stmt === false) {
+                            throw new Exception("Gagal menjalankan query [RALAT]: " . $DB -> error);
+                        }
+            
+                        $stmt -> bind_param("ssss", $noic, $nama, $jantina, $kelas);
+            
+                        if(!$stmt -> execute()) {
+                            $uploadStmt = false;
+                            break; // Stop processing on error
+                        }
+
+                        $stmt -> close(); // ensure statement is closed each loop
+                    }
+                }
+                else {
+                    // throw an error upon given spreadsheet
+                    throw new Exception("Lajur jadual tidak boleh melebihi atau kurang daripada 4!");
+                }
+        
+                if(!$uploadStmt) {
+                    throw new Exception("Gagal memasukkan query");
+                }
+        
+                return true; // Return success if all rows are processed
+        
+            }
+            catch (Exception $error) {
+                // Handle the exception and redirect the user
+                echo "<script>alert('Berlaku ralat semasa memuatkan file: " . $error -> getMessage() . "'); window.location = 'import_murid.php';</script>";
+                return false;
+            }
+        }        
+        elseif($s === "TXT") {
+            $uploadDir = "uploads/";
+        
+            // check directory exsistance
+            if(!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            
+            $uploadFile = $uploadDir . basename($a['name']);
+            $fileType = strtolower(pathinfo($uploadFile, PATHINFO_EXTENSION));
+            
+            if($fileType != "txt" && $fileType != "csv") { // Corrected file type check
+                return false;
+            }
+        
+            if(move_uploaded_file($a['tmp_name'], $uploadFile)) {
+                $file = fopen($uploadFile, "r");
+        
+                if($file) {
+                    $success = true; // Track the overall success
+        
+                    while(($y = fgets($file)) !== false) {
+                        $rows = explode(",", trim($y));
+        
+                        if(count($rows) === 4) { // Corrected the count check
+                            $noic = trim($rows[0]);
+                            $nama = trim($rows[1]);
+                            $jantina = trim($rows[2]);
+                            $kelas = trim($rows[3]);
+        
+                            $stmt = $DB -> prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
+                            $stmt -> bind_param("ssss", $noic, $nama, $jantina, $kelas);
+        
+                            if(!$stmt->execute()) {
+                                $success = false;
+                                break; // Stop processing on error
+                            }
+        
+                            $stmt->close(); // Close the statement after each execution
+                        }
+                    }
+        
+                    fclose($file); // Close the file after processing all rows
+                    unlink($uploadFile); // Delete the uploaded file
+        
+                    return $success; // Return the result of the process
+                }
+            }
+            return false; // Return false if file could not be moved or opened
+        }        
+        else {
+            // Handle other file types or conditions here
+            return false;
+        } 
     }    
 }
