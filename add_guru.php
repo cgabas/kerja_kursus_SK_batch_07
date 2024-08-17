@@ -11,21 +11,26 @@
             'matapelajaran' => $_POST['matapelajaran'],
             'katalaluan' => $_POST['katalaluan']
         ], 'GURU') === true) {
-            echo "<script>alert('Pendaftaran Guru Berjaya Dilakukan!'); window.location = 'main_page_admin.php';</script>";
+            echo "<script>alert('Pendaftaran Guru Berjaya Dilakukan!\\nMAKLUMAT(SILA INGAT):\\nKATALALUAN: " . htmlspecialchars($_POST['katalaluan'], ENT_QUOTES, 'UTF-8') . "'); window.location = 'index.php';</script>";
         }
         else {  
             echo "<script>alert('Pendaftaran Guru Tidak Dapat Dilakukan. Sila Semak Semula Nombor KP.');</script>";
         }
     }
 ?>
+<!-- frontend -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms-MY">
+    <!-- before it was became a signup page, this page was build for admin system intended to -->
+    <!-- create a new user, but has changed it's purpose for user signup -->
+    <!-- that's why it use $headAdmin instead of $headClient from config.php -->
     <?php echo $headAdmin; ?>
     <body>
-        <?php include_once "navigation_admin.php"; ?>
         <div class="addGuru">
             <h1>Borang Pendaftaran Guru</h1>
             <hr>
+            <!-- form -->
+            <!-- insert Guru name, noic, pass, gender and subject -->
             <form action="" method="post">
                 <table>
                     <tr>
@@ -52,6 +57,10 @@
                         <td>
                             <select name="matapelajaran" id="matapelajaran">
                                 <?php
+                                    /* 
+                                        geting an array of subject that contains every subject
+                                        possibly avaliable in every Malaysia high school
+                                    */
                                     foreach(globalFunc::matapelajaran as $x) {
                                         echo "<option value=\"$x\">$x</option>";
                                     }
@@ -62,6 +71,7 @@
                 </table>
                 <button type="submit" name="submit">Daftar</button>
             </form>
+            <a href="index.php">Log Masuk</a>
         </div>
     </body>
 </html>

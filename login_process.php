@@ -18,4 +18,5 @@
     <input name="nokp" type="text" placeholder="NoKP Anda" minlength="12" maxlength="12" autofocus required>
     <input name="pass" type="password" placeholder="Katalaluan Anda" maxlength="7" required>
     <button type="submit" name="submit">Log Masuk</button>
+    <button type="button" onclick="window.location = 'add_guru.php'">Daftar</button>
 </form>

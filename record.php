@@ -34,6 +34,7 @@
                     if(!$isExist) {
                         echo "<div><img alt=\"Tiada Urusan Program\" src=\"style/image/not-involved.png\">";
                         echo "<h1>Tiada Urusan Program Hari Ini!</h1></div>";
+                        echo "<div class=\"seekAttendance\"><a href=\"main_page.php\">Menu Utama</a></div>";
                         session_write_close();
                     }
                     else {
@@ -45,6 +46,7 @@
                         else {
                             echo "<div><img alt=\"Tiada Urusan Program Bagi Kelas ".$_COOKIE['kelas']."\" src=\"style/image/not-involved.png\">";
                             echo "<h1>Kehadiran Kelas Ini Sudah Direkod!</h1></div>";
+                            echo "<div class=\"seekAttendance\"><a href=\"main_page.php\">Menu Utama</a></div>";
                             session_write_close();
                         }
                     }

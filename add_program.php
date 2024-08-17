@@ -85,6 +85,9 @@
                 </div>
             </form>
         </div>
+        <div class="seekAttendance">
+            <a href="main_page_admin.php">Menu Utama</a>
+        </div>
         <script type="module" src="library/progIntervensi-lib.js">
             import { callFunc } from "./library/progIntervensi-lib.js";
         </script>
