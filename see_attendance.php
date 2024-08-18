@@ -3,6 +3,9 @@ require_once "config/config.php";
 require_once "config/functions.php";
 
 $func = new globalFunc;
+
+// getting column tarikh and nama_program from table program
+$data = $func -> fromDB($cDB, $_COOKIE['kod'], 'LIST_PROGRAM');
 ?>
 <!DOCTYPE html>
 <html lang="ms-MY">
@@ -13,7 +16,10 @@ $func = new globalFunc;
             <!-- access the 'kelas' name using $_COOKIE[] function  -->
             Kehadiran Murid Untuk Kelas <?php echo $_COOKIE['kelas'];?>
         </h3>
-        <h4 id="subtitle">Program: <?php echo $func -> fromDB($cDB, $_COOKIE['kod'], 'LIST_PROGRAM');?></h4>
+        <h4 id="subtitle">Program: <?php echo $data['nama_program'];?></h4>
+        <h4 id="subtitle">Pada Tarikh: <i style="color: yellow;">
+            <?php echo $func->dateFormatChange($data['tarikh'], 'NORMAL');?>
+        </i></h4>
         <div class="murid">  
             <table>
                 <tr>

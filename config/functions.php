@@ -14,7 +14,7 @@
 
 //  PhpSpreadSheet library, downloaded using Composer PHP library installer
 // NOTE: import path will be affected by the file(who currently using functions.php) location
-require "library/vendor/autoload.php";
+require "library/php_library/vendor/autoload.php";
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 // single class here, widely used on every PHP file inside this directory
@@ -162,19 +162,21 @@ class globalFunc {
             echo "<tr><th>Kod Rujukan</th>";
             echo "<th>Nama Program</th>";
             echo "<th>Tempat</th>";
+            echo "<th>Tarikh</th>";
             echo "<th>Jam Bermula</th>";
             echo "<th>Jam Tamat</th>";
             echo "<th>Maklumat</th></tr>";
             while ($data = mysqli_fetch_assoc($result)) {
                 // if true, then the 'kodProgram' will be avaliable to be click
                 if ($s) {
-                    echo "<tr><td><a href=\"#\" onclick=\"callFunc.seekAttendance('".$data['kodProgram']."')\">" . $data['kodProgram'] . "</a></td>";
+                    echo "<tr><td><a href=\"#\" onclick=\"callFunc.seekAttendance('".$data['kodProgram']."', '".$data['tarikh']."')\">" . $data['kodProgram'] . "</a></td>";
                 }
                 else {
                     echo "<tr><td>" . $data['kodProgram'] . "</td>";
                 }
                 echo "<td>" . $data['nama_program'] . "</td>";
                 echo "<td>" . $data['tempat'] . "</td>";
+                echo "<td>" . $this->dateFormatChange($data['tarikh'], 'NORMAL') . "</td>";
                 echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
                 echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
                 echo "<td>" . $data['maklumat'] . "</td></tr>";
@@ -343,120 +345,76 @@ class globalFunc {
     function program($DB, $a, $s) { // procedure function
         // $s(the third argument) will act like a switch
         // if $s true, a checkbox option will be include when displaying form(for admin)
-        if ($s) {
-            // check if the search option are empty
-            if (!empty($a['searchNama']) || !empty($a['date'])) {
-                $namaProg = $a['searchNama'];
-                $date = $a['date'];
-                $result = mysqli_query($DB, "SELECT * FROM program WHERE nama_program LIKE '$namaProg%' AND tarikh LIKE '$date%'");
+        // check if the search option are empty
+        if(!empty($a['searchNama']) || !empty($a['date'])) {
+            $namaProg = $a['searchNama'];
+            $date = $a['date'];
+            $result = mysqli_query($DB, "SELECT * FROM program WHERE nama_program LIKE '$namaProg%' AND tarikh LIKE '$date%'");
 
-                if (mysqli_num_rows($result) > 0) {
-                    echo "<tr><th>Kod Program</th>";
-                    echo "<th>Nama Program</th>";
-                    echo "<th>Tempat</th>";
-                    echo "<th>Tarikh</th>";
-                    echo "<th>Jam Bermula</th>";
-                    echo "<th>Jam Tamat</th>";
-                    echo "<th>Cikgu Yang Mengajar</th>";
-                    echo "<th>Maklumat</th>";
-                    echo "<th>Pilih</th></tr>";
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        echo "<tr><td>" . $data['kodProgram'] . "</td>";
-                        echo "<td>" . $data['nama_program'] . "</td>";
-                        echo "<td>" . $data['tempat'] . "</td>";
-                        echo "<td>" . $data['tarikh'] . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
-                        echo "<td>" . $data['maklumat'] . "</td>";
+            if(mysqli_num_rows($result) > 0) {
+                echo "<tr><th>Kod Program</th>";
+                echo "<th>Nama Program</th>";
+                echo "<th>Tempat</th>";
+                echo "<th>Tarikh</th>";
+                echo "<th>Jam Bermula</th>";
+                echo "<th>Jam Tamat</th>";
+                echo "<th>Cikgu Yang Mengajar</th>";
+                echo "<th>Maklumat</th>";
+                // displays `Pilih` column header if current user is admin
+                if($s) {
+                    echo "<th>Pilih</th></tr>";    
+                }
+                while($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td>" . $data['kodProgram'] . "</td>";
+                    echo "<td>" . $data['nama_program'] . "</td>";
+                    echo "<td>" . $data['tempat'] . "</td>";
+                    echo "<td>" . $this->dateFormatChange($data['tarikh'], 'NORMAL') . "</td>";
+                    echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
+                    echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
+                    echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
+                    echo "<td>" . $data['maklumat'] . "</td>";
+                    // set input element with it's own value related to it's row
+                    if($s) {
                         echo "<td><input type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
                     }
-                } else {
-                    echo "<div><img alt=\"Tidak Sepadan\" src=\"style/image/not-found-students.png\">";
-                    echo "<h1>Tiada Program Yang Sepadan Dengan Carian</h1></div>";
-                }
-            } else {
-                $result = mysqli_query($DB, "SELECT * FROM program");
-                if (mysqli_num_rows($result) > 0) {
-                    echo "<tr><th>Kod Program</th>";
-                    echo "<th>Nama Program</th>";
-                    echo "<th>Tempat</th>";
-                    echo "<th>Tarikh</th>";
-                    echo "<th>Jam Bermula</th>";
-                    echo "<th>Jam Tamat</th>";
-                    echo "<th>Cikgu Yang Mengajar</th>";
-                    echo "<th>Maklumat</th>";
-                    echo "<th>Pilih</th></tr>";
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        echo "<tr><td>" . $data['kodProgram'] . "</td>";
-                        echo "<td>" . $data['nama_program'] . "</td>";
-                        echo "<td>" . $data['tempat'] . "</td>";
-                        echo "<td>" . $data['tarikh'] . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
-                        echo "<td>" . $data['maklumat'] . "</td>";
-                        echo "<td><input name=\"kodProgram[]\" type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
-                    }
-                } else {
-                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                    echo "<h1>Tiada Program Dalam Rekod Pangkalan Data</h1></div>";
                 }
             }
-        } else {
-            if (!empty($a['searchNama']) || !empty($a['date'])) {
-                $namaProg = $a['searchNama'];
-                $date = $a['date'];
-                $result = mysqli_query($DB, "SELECT * FROM program WHERE nama_program LIKE '$namaProg%' AND tarikh LIKE '$date%'");
-
-                if (mysqli_num_rows($result) > 0) {
-                    echo "<tr><th>Kod Program</th>";
-                    echo "<th>Nama Program</th>";
-                    echo "<th>Tempat</th>";
-                    echo "<th>Tarikh</th>";
-                    echo "<th>Jam Bermula</th>";
-                    echo "<th>Jam Tamat</th>";
-                    echo "<th>Cikgu Yang Mengajar</th>";
-                    echo "<th>Maklumat</th></tr>";
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        echo "<tr><td>" . $data['kodProgram'] . "</td>";
-                        echo "<td>" . $data['nama_program'] . "</td>";
-                        echo "<td>" . $data['tempat'] . "</td>";
-                        echo "<td>" . $data['tarikh'] . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
-                        echo "<td>" . $data['maklumat'] . "</td></tr>";
-                    }
-                } else {
-                    echo "<div><img alt=\"Tidak Sepadan\" src=\"style/image/not-found-students.png\">";
-                    echo "<h1>Tiada Program Yang Sepadan Dengan Carian</h1></div>";
+            else {
+                echo "<div><img alt=\"Tidak Sepadan\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>Tiada Program Yang Sepadan Dengan Carian</h1></div>";
+            }
+        }
+        else {
+            $result = mysqli_query($DB, "SELECT * FROM program");
+            if(mysqli_num_rows($result) > 0) {
+                echo "<tr><th>Kod Program</th>";
+                echo "<th>Nama Program</th>";
+                echo "<th>Tempat</th>";
+                echo "<th>Tarikh</th>";
+                echo "<th>Jam Bermula</th>";
+                echo "<th>Jam Tamat</th>";
+                echo "<th>Cikgu Yang Mengajar</th>";
+                echo "<th>Maklumat</th>";
+                if($s) {
+                    echo "<th>Pilih</th></tr>";
                 }
-            } else {
-                $result = mysqli_query($DB, "SELECT * FROM program");
-                if (mysqli_num_rows($result) > 0) {
-                    echo "<tr><th>Kod Program</th>";
-                    echo "<th>Nama Program</th>";
-                    echo "<th>Tempat</th>";
-                    echo "<th>Tarikh</th>";
-                    echo "<th>Jam Bermula</th>";
-                    echo "<th>Jam Tamat</th>";
-                    echo "<th>Cikgu Yang Mengajar</th>";
-                    echo "<th>Maklumat</th></tr>";
-                    while ($data = mysqli_fetch_assoc($result)) {
-                        echo "<tr><td>" . $data['kodProgram'] . "</td>";
-                        echo "<td>" . $data['nama_program'] . "</td>";
-                        echo "<td>" . $data['tempat'] . "</td>";
-                        echo "<td>" . $data['tarikh'] . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
-                        echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
-                        echo "<td>" . $data['maklumat'] . "</td></tr>";
+                while($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td>" . $data['kodProgram'] . "</td>";
+                    echo "<td>" . $data['nama_program'] . "</td>";
+                    echo "<td>" . $data['tempat'] . "</td>";
+                    echo "<td>" . $this->dateFormatChange($data['tarikh'], 'NORMAL') . "</td>";
+                    echo "<td>" . $this->timeFormatChange($data['masa_mula'], 'NORMAL') . "</td>";
+                    echo "<td>" . $this->timeFormatChange($data['masa_tamat'], 'NORMAL') . "</td>";
+                    echo "<td>" . $this->nokp2guru($DB, $data['nokp']) . "</td>";
+                    echo "<td>" . $data['maklumat'] . "</td>";
+                    if($s) {
+                        echo "<td><input name=\"kodProgram[]\" type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
                     }
-                } else {
-                    echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-                    echo "<h1>Tiada Program Dalam Rekod Pangkalan Data</h1></div>";
                 }
+            }
+            else {
+                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>Tiada Program Dalam Rekod Pangkalan Data</h1></div>";
             }
         }
     }
@@ -722,7 +680,10 @@ class globalFunc {
             $return = mysqli_query($DB, "SELECT * FROM program WHERE kodProgram = '$a'");
             if($return -> num_rows > 0) {
                 while($data = mysqli_fetch_assoc($return)) {
-                    return $data['nama_program'];
+                    return [
+                        'nama_program' => $data['nama_program'],
+                        'tarikh' => $data['tarikh'],
+                    ];
                 }
             }
             else {

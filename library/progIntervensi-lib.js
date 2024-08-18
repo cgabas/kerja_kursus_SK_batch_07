@@ -20,8 +20,9 @@ const callFunc = {
         }
     },
 
-    seekAttendance: function(code) {
+    seekAttendance: function(code, date) {
         this.sendCookie('kod', code);
+        this.sendCookie('tarikh', code);
         window.location = "see_attendance.php";
     },
 
