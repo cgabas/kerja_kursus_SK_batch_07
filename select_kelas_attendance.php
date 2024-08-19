@@ -11,10 +11,10 @@
         import { callFunc } from "./library/progIntervensi-lib.js";
     </script>
     <body>
+        <?php include_once "navigation.php"; ?>
         <div class="selectClass">
             <h1>Lihat Kehadiran Murid</h1>
             <hr>
-            <h1>Pilih Kelas</h1>
             <div>
                 <button onclick="callFunc.sendCookie('kelas', 'Arif', 'a')">Arif</button>
                 <button onclick="callFunc.sendCookie('kelas', 'Bestari', 'a')">Bestari</button>

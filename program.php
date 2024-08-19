@@ -56,7 +56,14 @@ $program = isset($_POST['searchNama']) ? $_POST['searchNama'] : NULL;
             </div>
         </form>
         <div class="seekAttendance" style="display: block; padding-top: 10px;">
-            <a href="main_page.php">Menu Utama</a>
+            <?php
+                if($aras === 'ADMIN') {
+                    echo "<a href=\"main_page_admin.php\">Menu Utama</a>";
+                }
+                else {
+                    echo "<a href=\"main_page.php\">Menu Utama</a>";
+                }
+            ?>
             <a onclick="window.print();" href="#">Cetak</a>
         </div>
         <form id="printForm" action="program_delete.php" method="post">

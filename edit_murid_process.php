@@ -13,11 +13,11 @@ $array = [
     'noic_for_refe' => $_COOKIE['noic'] ?? NULL
 ];
 
-if (isset($_POST['edit'])) {
+if(isset($_POST['edit'])) {
     // Check if at least one field is filled
     $missingFields = true;
 
-    if (
+    if(
         !empty($_POST['noic']) ||
         !empty($_POST['nama']) ||
         !empty($_POST['kelas']) ||
@@ -26,18 +26,20 @@ if (isset($_POST['edit'])) {
         $missingFields = false;
     }
 
-    if ($missingFields) {
+    if($missingFields) {
         echo "<script>
             alert('Sila Masukkan Sekurang-kurangnya Satu Maklumat!');
             history.pushState(null, '', 'edit_murid_process.php');
         </script>";
-    } else {
-        if ($func->fromDB($cDB, $array, 'EDIT_MURID')) {
+    }
+    else {
+        if($func->fromDB($cDB, $array, 'EDIT_MURID')) {
             echo "<script>
                 alert('Maklumat Murid Berjaya Diubah!');
                 window.location = 'main_page.php';
             </script>";
-        } else {
+        }
+        else {
             echo "<script>
                 alert('Maklumat Murid Tidak Dapat Diubah, Sila Cuba Sebentar Nanti.');
                 window.location = 'main_page.php';
@@ -45,13 +47,14 @@ if (isset($_POST['edit'])) {
         }
     }
 }
-elseif (isset($_POST['delete']) && isset($_COOKIE['confirm']) && $_COOKIE['confirm'] === 'true') {
-    if ($func->fromDB($cDB, ['switch' => 'MURID', 'noic' => $_COOKIE['noic']], 'DELETE_ROW')) {
+elseif(isset($_POST['delete']) && isset($_COOKIE['confirm']) && $_COOKIE['confirm'] === 'true') {
+    if($func->fromDB($cDB, ['switch' => 'MURID', 'noic' => $_COOKIE['noic']], 'DELETE_ROW')) {
         echo "<script>
             alert('Murid Ini Berjaya Disingkirkan Dari Pangkalan Data.');
             window.location = 'main_page.php';
         </script>";
-    } else {
+    }
+    else {
         echo "<script>alert('Tidak Dapat Disingkirkan, Sila Cuba Lagi...');</script>";
     }
     // Clear the confirm cookie after the operation

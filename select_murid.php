@@ -11,10 +11,10 @@
         import { callFunc } from "./library/progIntervensi-lib.js";
     </script>
     <body>
+        <?php include_once "navigation.php"; ?>
         <div class="selectClass">
             <h1>Senarai Murid</h1>
             <hr>
-            <h1>Pilih Kelas</h1>
             <div>
                 <?php
                     foreach(globalFunc::kelas as $x) {

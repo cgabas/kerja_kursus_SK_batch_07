@@ -13,6 +13,9 @@
 - [Installation](#installation)
 - [Importing Database](#importing-database)
 
+## From Dev
+***Hello there, my name is Abas. I was a teenager when this README file was created and all of this system inside this repository. I created this repository to backup my code, because you will never know when the day is come and when the day have come you will desperately need it when it's not there. In this case I'm just affraid that I going to losing everything that I've build so hard. Anyway, if you see a commit that I had made which look like this `System update ver 17.8.2024 (adding some improvement and new features……) : 17/8/2024`, please ignore them, it look cringe to me because at this time I was not familliar with the concept of Semantic Version. The real initial version is Ver 1.0.0. Thank You, Danke and Terima Kasih.***
+
 ### Description
 __Malay__: Sistem ini dengan nama "__Sistem Program Intervensi__" boleh melakukan perekodan kehadiran yang hanya boleh dilakukan oleh guru yang telah didaftarkan oleh admin (PKHEM) di dalam pangkalan data guru. Fungsi sistem yang diberi kepada guru termasuklah melihat senarai nama murid yang telah didaftarkan ke pangkalan data sistem, melihat kehadiran murid yang telah direkodkan oleh guru, melihat kesemua senarai program yang pernah diadakan, merekod kehadiran murid yang terlibat pada program tertentu dan mencetak senarai-senarai seperti kehadiran murid, murid yang pernah didaftarkan ke dalam pangkalan data dan senarai program sama ada yang tertentu mahupun kesemuanya.
 

@@ -664,8 +664,22 @@ class globalFunc {
                 mysqli_stmt_bind_param($stmt, "s", $a['nokp']);
             }
             else {
-                $stmt = mysqli_prepare($DB, "DELETE FROM murid WHERE noic = ?");
+                // FOR $deleteRows
+                // this one is important to maintain data integrity
+                // row that are related to selected noic will be deleted.
+                // then selected murid will be deleted
+                $deleteRows = $DB -> prepare("DELETE FROM kehadiran WHERE noic = ?");
+                $stmt = $DB -> prepare("DELETE FROM murid WHERE noic = ?");
+                mysqli_stmt_bind_param($deleteRows, "s", $a['noic']);
                 mysqli_stmt_bind_param($stmt, "s", $a['noic']);
+
+                // delete program rows
+                if($deleteRows -> execute()) {
+                    $deleteRows -> close();
+                }
+                else {
+                    return false;
+                }
             }
             
             if($stmt->execute()) {

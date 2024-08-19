@@ -28,7 +28,7 @@
             </table>
         </div>
         <div class="seekAttendance">
-            <a href="main_page.php">Menu Utama</a>
+            <a href="main_page_admin.php">Menu Utama</a>
         </div>
     </body>
     <script type="module" src="./library/progIntervensi-lib.js">
