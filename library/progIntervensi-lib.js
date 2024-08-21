@@ -76,6 +76,31 @@ const callFunc = {
                 msg.textContent = "";
             }
         });
+    },
+
+    // to make the cute clock at the main menu functioning
+    // use setInterveal() to make it always updating date and time every second
+    datetimeTeller: function(time, date, clockAnima) {
+        const now = new Date();
+        
+        // format the date as dd/mm/yyyy
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+        const year = now.getFullYear();
+        const dateString = `${day}-${month}-${year}`;
+        
+        // format the time as HH:MM:SS AM/PM
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // The hour '0' should be '12'
+        const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+
+        // display datetime
+        date.textContent = "Tarikh: " + dateString + " 📆";
+        time.textContent = "Masa: " + timeString + " " +clockAnima;
     }
 };
 

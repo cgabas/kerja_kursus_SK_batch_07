@@ -42,5 +42,26 @@
                 ?>
             </table>
         </div>
+        <center id="miniclock">
+            <p><u>Tarikh & Masa</u></p>
+            <h4 id="date"></h4>
+            <h4 id="time"></h4>
+        </center>
     </body>
+    <script type="module">
+        import { callFunc } from './library/progIntervensi-lib.js';
+
+        // animation
+        const emoji = ["🕐","🕑","🕒","🕓","🕔","🕕","🕖","🕗","🕘","🕙","🕚","🕛"];
+        let count = 0;
+
+        // synchronous datetime update
+        callFunc.datetimeTeller(document.getElementById('time'), document.getElementById('date'));
+        // count on time
+        setInterval(() => {
+            callFunc.datetimeTeller(document.getElementById('time'), document.getElementById('date'), emoji[count]);
+            // if count have reach 11, set count back to 0
+            count = (count === (emoji.length - 1)) ? 0 : count + 1;
+        }, 1000);
+    </script>
 </html>

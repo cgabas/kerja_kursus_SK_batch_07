@@ -786,3 +786,31 @@ input[type='date']::-webkit-calendar-picker-indicator {
     color: red;
     font-family: roboC-bold;
 }
+
+#miniclock {
+    color: white;
+    font-family: roboC-bold;
+    background-color: var(--G3);
+    width: fit-content;
+    font-size: 90%;
+    padding: 2px 10px 2px 10px;
+    border-radius: 10px;
+    text-align: center;
+    text-wrap: nowrap;
+    box-shadow: none;
+
+    /* dislocate the clock to a new place */
+    position: fixed;
+    bottom: -90px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.5s;
+}
+#miniclock:hover {
+    bottom: 0;
+    font-size: large;
+    background-color: var(--G1);
+    box-shadow: 0 0 15px white;
+    padding: 2px 50vh 2px 50vh;
+    border-radius: 25px 25px 0 0;
+}
