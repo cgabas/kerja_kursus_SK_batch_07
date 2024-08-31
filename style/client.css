@@ -1010,3 +1010,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     padding: 2px 50vh 2px 50vh;
     border-radius: 25px 25px 0 0;
 }
+
+#text-styling {
+    font-family: roboC;
+}

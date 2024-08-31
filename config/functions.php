@@ -156,8 +156,7 @@ class globalFunc {
             $result = mysqli_query($DB, "SELECT * FROM program WHERE tarikh='$curDate'");
         }
         
-
-        if (mysqli_num_rows($result) > 0) {
+        if(mysqli_num_rows($result) > 0) {
             echo "<h2>Program Hari Ini</h2>";
             echo "<tr><th>Kod Rujukan</th>";
             echo "<th>Nama Program</th>";
@@ -166,9 +165,9 @@ class globalFunc {
             echo "<th>Jam Bermula</th>";
             echo "<th>Jam Tamat</th>";
             echo "<th>Maklumat</th></tr>";
-            while ($data = mysqli_fetch_assoc($result)) {
+            while($data = mysqli_fetch_assoc($result)) {
                 // if true, then the 'kodProgram' will be avaliable to be click
-                if ($s) {
+                if($s) {
                     echo "<tr><td><a href=\"#\" onclick=\"callFunc.seekAttendance('".$data['kodProgram']."', '".$data['tarikh']."')\">" . $data['kodProgram'] . "</a></td>";
                 }
                 else {
@@ -182,8 +181,14 @@ class globalFunc {
                 echo "<td>" . $data['maklumat'] . "</td></tr>";
             }
         }
+        // if on attendance.php, display a different word, same to main_page.php
         else {
-            echo "<h2>Tiada Program Hari Ini</h2>";
+            if($s) {
+                echo "<h2>Tiada Program Yang Diwujudkan</h2>";
+            }
+            else {
+                echo "<h2>Tiada Program Hari Ini</h2>";
+            }
         }
     }
 
@@ -204,10 +209,10 @@ class globalFunc {
     
         if ($s === 'MURID') {
             if (!empty($v)) {
-                $query = "SELECT * FROM murid WHERE nama LIKE '$v%'";
+                $query = "SELECT * FROM murid WHERE nama LIKE '$v%' ORDER BY kelas ASC";
             }
             else {
-                $query = "SELECT * FROM murid";
+                $query = "SELECT * FROM murid  ORDER BY kelas ASC";
             }
     
             $result = mysqli_query($DB, $query);
@@ -413,7 +418,7 @@ class globalFunc {
                 }
             }
             else {
-                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<div id=\"text-styling\"><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
                 echo "<h1>Tiada Program Dalam Rekod Pangkalan Data</h1></div>";
             }
         }
@@ -905,7 +910,7 @@ class globalFunc {
                 return false;
             }
         }        
-        elseif($s === "TXT") {
+        elseif($s === "TXT") { //*
             $uploadDir = "uploads/";
         
             // check directory exsistance
@@ -940,7 +945,7 @@ class globalFunc {
         
                             if(!$stmt->execute()) {
                                 $success = false;
-                                break; // Stop processing on error
+                                break; // Stop processing on error //
                             }
         
                             $stmt->close(); // Close the statement after each execution
@@ -954,7 +959,7 @@ class globalFunc {
                 }
             }
             return false; // Return false if file could not be moved or opened
-        }        
+        }        //
         else {
             // Handle other file types or conditions here
             return false;
