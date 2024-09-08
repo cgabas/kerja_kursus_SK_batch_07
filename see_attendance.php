@@ -143,7 +143,7 @@ if(isset($_POST['deleteButton'])) {
         }
     </script>
     <script type="module" src="library/progIntervensi-lib.js">
-      srt { callFunc } from "./library/progIntervensi.js";
+        import { callFunc } from "./library/progIntervensi.js";
     </script>
     <script src="library/js_library/jquery_slim.js"></script>
 </html>
