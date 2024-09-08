@@ -14,11 +14,11 @@
         'nokp_for_refe' => $_COOKIE['nokp'] ?? NULL
     ];
 
-    if (isset($_POST['edit'])) {
+    if(isset($_POST['edit'])) {
         // Check if at least one field is filled
         $missingFields = true;
 
-        if (
+        if(
             !empty($_POST['nokp']) ||
             !empty($_POST['nama']) ||
             !empty($_POST['katalaluan']) ||
@@ -28,7 +28,7 @@
             $missingFields = false;
         }
 
-        if ($missingFields) {
+        if($missingFields) {
             echo "<script>
                 alert('Sila Masukkan Sekurang-kurangnya Satu Maklumat!');
                 history.pushState(null, '', 'edit_guru_process.php');
@@ -36,7 +36,7 @@
         }
         else {
             $result = $func->fromDB($cDB, $array, 'EDIT_GURU');
-            if ($result) {
+            if($result) {
                 echo "<script>
                     alert('Maklumat Guru Berjaya Diubah!');
                     window.location = 'main_page_admin.php';
@@ -50,8 +50,8 @@
             }
         }
     }
-    elseif (isset($_POST['delete']) && isset($_COOKIE['confirm']) && $_COOKIE['confirm'] === 'true') {
-        if ($func->fromDB($cDB, ['switch' => 'GURU', 'nokp' => $_COOKIE['nokp']], 'DELETE_ROW')) {
+    elseif(isset($_POST['delete']) && isset($_COOKIE['confirm']) && $_COOKIE['confirm'] === 'true') {
+        if($func -> fromDB($cDB, ['switch' => 'GURU', 'nokp' => $_COOKIE['nokp']], 'DELETE_ROW')) {
             echo "<script>
                 alert('Guru Ini Berjaya Disingkirkan Dari Pangkalan Data.');
                 window.location = 'main_page_admin.php';
@@ -97,7 +97,7 @@
             </div>
             <hr>
             <button type="reset">Kosongkan</button>
-            <button type="submit" name="delete" onclick="return callFunc.userConfirm(event);">Singkirkan</button>
+            <button type="submit" name="delete" onclick="return callFunc.userConfirm(event, 'GURU');">Singkirkan</button>
             <button type="submit" name="edit">Sunting</button>
             <small>*PERINGATAN: TINGGALKAN KOTAK INPUT KOSONG PADA<br> BAHAGIAN YANG TIDAK MAHU DIUBAH</small>
             <small id="important_msg">*AMARAN: MENYINGKIRKAN GURU INI AKAN MENYINGKIRKAN<br> GURU DARIPADA PANGKALAN DATA!</small>

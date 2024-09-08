@@ -12,11 +12,12 @@
         $errors = [];
 
         session_start();
-        foreach ($noicList as $noic) {
+        foreach($noicList as $noic) {
             $result = $func->saverecord($cDB, $_SESSION['nokp'], $noic);
-            if ($result) {
+            if($result) {
                 $results[] = $result;
-            } else {
+            }
+            else {
                 $errors[] = $noic;
             }
         }

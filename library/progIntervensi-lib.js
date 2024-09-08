@@ -42,15 +42,15 @@ const callFunc = {
         let userConfirmed = false;
         
         // Display the confirmation dialog based on the switchType
-        if (switchType === 'MURID') {
+        if(switchType === 'MURID') {
             userConfirmed = confirm('Adakah Anda Pasti Untuk Menyingkirkan Murid Ini? Murid Ini Tidak Akan Wujud Lagi Dalam Pangkalan Data Selepas Ini.');
         }
-        else if (switchType === 'GURU') {
+        else if(switchType === 'GURU') {
             userConfirmed = confirm('Adakah Anda Pasti Untuk Menyingkirkan Guru Ini? Guru Ini Tidak Akan Wujud Lagi Dalam Pangkalan Data Selepas Ini.');
         }
 
         // Check the user's response
-        if (!userConfirmed) {
+        if(!userConfirmed) {
             // Prevent the default action if the user clicks "Cancel"
             event.preventDefault();
             return false;

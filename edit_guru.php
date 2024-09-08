@@ -3,6 +3,8 @@
     require_once "config/functions.php";
 
     $func = new globalFunc;
+    
+    $search = isset($_POST['submit']) ? $_POST['search'] : NULL;
 ?>
 
 <!-- frontend -->
@@ -14,15 +16,14 @@
         <div class="guru" style="margin-top: 10px;">
             <form action="" method="post" id="printForm">
                 <label for="search">Carian Nama</label>
-                <input type="text" id="search" name="search" placeholder="Nama Murid" maxlength="20">
+                <input type="text" id="search" name="search" placeholder="Nama Guru" maxlength="20">
                 <button type="submit" name="submit">
-                    <img src="style/image/search.png" alt="Cari Nama Murid">
+                    <img src="style/image/search.png" alt="Cari Nama Guru">
                     <p>Cari</p>
                 </button>
             </form>
             <table>
                 <?php
-                    $search = (isset($_POST['submit'])) ? $_POST['search'] : NULL;
                     $func->guru($cDB, $search, 'GURU');
                 ?>
             </table>

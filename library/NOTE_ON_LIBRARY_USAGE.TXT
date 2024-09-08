@@ -1,0 +1,14 @@
+Hey there! My name is Barnabas(Abas)
+Why using libraries?
+
+Firstly,
+Every libraries used for this system is totaly OPEN-SOURCE!📜:
+🏫MIT License
+🎻Composer | Dependency Manager for PHP - Nils Adermann, Jordi Boggiano (c)(free of charge for a copy)
+
+Secondly,
+PHP:
+phpSpreadSheet - To make it possible to import spreadsheet file in this system besides using .TXT or .CSV(used on functions.php for import_murid.php)
+
+JavaScript:
+JQuery 3.7.1(slim version) - To add custom function to every interactable HTML elements(used on see_attandance.php)

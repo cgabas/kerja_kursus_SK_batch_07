@@ -194,7 +194,10 @@ class globalFunc {
 
     // to list avaliable row in 'murid' table based on what class
     function murid($DB, $v, $vv, $s) {
-        if ($s === 'NOIC') {
+        // using if-elseif statement cause some bugs, the safe approach is by using if statement only
+
+        // to find student's noic by searching their name
+        if($s === 'NOIC') {
             $result = mysqli_query($DB, "SELECT noic FROM murid WHERE kelas = '$vv'");
             if (mysqli_num_rows($result) > 0) {
                 while ($data = mysqli_fetch_assoc($result)) {
@@ -206,14 +209,26 @@ class globalFunc {
             }
             return !empty($array) ? $array : false;
         }
-    
-        if ($s === 'MURID') {
-            if (!empty($v)) {
-                $query = "SELECT * FROM murid WHERE nama LIKE '$v%' ORDER BY kelas ASC";
+
+        // to delete Murid from kehadiran's row
+        elseif($s === 'DELETE_KEHADIRAN'){
+            // delete row base on selected noic and kodProgram
+            $deleteRow = $DB -> prepare("DELETE FROM kehadiran WHERE noic = ? AND kodProgram = ?");
+            $deleteRow -> bind_param("ss", $v, $vv);
+
+            if($deleteRow -> execute()) {
+                return true;
             }
             else {
-                $query = "SELECT * FROM murid  ORDER BY kelas ASC";
+                return false;
             }
+        }
+
+        // to display Murid's table
+        elseif($s === 'MURID') {
+            $query = !empty($v) ? 
+            "SELECT * FROM murid WHERE nama LIKE '$v%' ORDER BY kelas ASC" : // select this if search query is not empty
+            "SELECT * FROM murid  ORDER BY kelas ASC"; // select this if search query is empty
     
             $result = mysqli_query($DB, $query);
             if (mysqli_num_rows($result) > 0) {
@@ -285,13 +300,13 @@ class globalFunc {
         }
         elseif($s === 'GURU') {
             if(!empty($v) || isset($v)) {
-                $result = mysqli_query($DB, "SELECT * FROM guru WHERE nama_guru = '$v'");
+                $result = mysqli_query($DB, "SELECT * FROM guru WHERE nama_guru LIKE '$v%' ORDER BY nama_guru ASC");
             }
             else {
-                $result = mysqli_query($DB, "SELECT * FROM guru");
+                $result = mysqli_query($DB, "SELECT * FROM guru ORDER BY nama_guru ASC");
             }
             
-            if (mysqli_num_rows($result) > 0) {
+            if(mysqli_num_rows($result) > 0) {
                 echo "<tr><th>Nombor KP</th>";
                 echo "<th>Nama Guru</th>";
                 echo "<th>Jantina</th>";
@@ -380,7 +395,7 @@ class globalFunc {
                     echo "<td>" . $data['maklumat'] . "</td>";
                     // set input element with it's own value related to it's row
                     if($s) {
-                        echo "<td><input type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
+                        echo "<td><input name=\"kodProgram[]\" type=\"checkbox\" value=\"" . $data['kodProgram'] . "\"></td></tr>";
                     }
                 }
             }
@@ -434,6 +449,7 @@ class globalFunc {
         and currentTime is less than end_time
         */
     function checkProgram($DB, $v) { // procedure function
+        // only select program that avaliable on current time and date by checking if masa_mula and masa_tamat is in range of current time
         $query = "SELECT * 
             FROM program 
             WHERE tarikh = CURDATE() 
@@ -443,14 +459,19 @@ class globalFunc {
             TIME_FORMAT(CURTIME(), '%H:%i') < TIME_FORMAT(masa_tamat, '%H:%m')))
             ) ORDER BY masa_mula DESC";
 
+        // execute query
         $result = mysqli_query($DB, $query);
-        if (mysqli_num_rows($result) > 0) {
-            while ($data = mysqli_fetch_assoc($result)) {
-                if ($data['nokp'] === $v) {
+        if(mysqli_num_rows($result) > 0) {
+            // if avaliable...
+            while($data = mysqli_fetch_assoc($result)) {
+                // look for a program that is match the nokp for the login user
+                if($data['nokp'] === $v) {
                     // return array
                     return [
+                        // return nokp, nama_program and kodProgram that has user's nokp on it's row
                         'nama_program' => $data['nama_program'],
-                        'kodProgram' => $data['kodProgram']
+                        'kodProgram' => $data['kodProgram'],
+                        'nokp' => $data['nokp']
                     ];
                 }
             }
@@ -463,54 +484,76 @@ class globalFunc {
         checked by the teacher by using a checkbox
         */
     function recordForm($DB, $v, $vv) { // return/procedure function
-        // nokp data or array passed through the second argument, $va
-        // kelas data passed through the third argument, $vv. Give NULL if not required
-        // $s is for function switch
+        // nokp data or array passed through the second argument, $v
+        // kelas data passed through the third argument, $vv. Give NULL if not require
         $result = mysqli_query($DB, "SELECT * FROM murid WHERE kelas='$vv'");
 
-        if (mysqli_num_rows($result) > 0) {
-            echo "<table><tr><th>Nama Murid</th>";
-            echo "<th>Nombor IC</th>";
-            echo "<th>Jantina</th>";
-            echo "<th>Kelas</th>";
-            echo "<th>Pilih</th></tr>";
-            $kodProgram = $this->checkProgram($DB, $v);
-            while ($data = mysqli_fetch_assoc($result)) {
-                echo "<tr><td>" . $data['nama'] . "</td>";
-                echo "<td>" . $data['noic'] . "</td>";
-                echo "<td>" . $data['jantina'] . "</td>";
-                echo "<td>" . $data['kelas'] . "</td>";
-                echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
+        if($this->checkProgram($DB, $v)['nokp'] === $v) {
+            if (mysqli_num_rows($result) > 0) {
+                echo "<table><tr><th>Nama Murid</th>";
+                echo "<th>Nombor IC</th>";
+                echo "<th>Jantina</th>";
+                echo "<th>Kelas</th>";
+                echo "<th>Pilih</th></tr>";
+                while ($data = mysqli_fetch_assoc($result)) {
+                    echo "<tr><td>" . $data['nama'] . "</td>";
+                    echo "<td>" . $data['noic'] . "</td>";
+                    echo "<td>" . $data['jantina'] . "</td>";
+                    echo "<td>" . $data['kelas'] . "</td>";
+                    echo "<td><input type=\"checkbox\" name=\"noic[]\" value=\"" . $data['noic'] . "\"></td></tr>";
+                }
+                echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
+                echo "<p id=\"notice\"><b>PERHATIAN</b>: Selepas merekod kehadiran, rekod yang telah dilakukan tidak boleh diubah
+                <br>tetapi boleh dilakukan semula jika rekod yang dilakukan telah <strong><u>DIKOSONGKAN</u></strong> tanpa
+                <br>meninggalkan sekurang-kurangnya satu baris rekod.</p>";
+                echo "<div class=\"seekAttendance\"><a href=\"main_page.php\">Menu Utama</a></div>";
             }
-            echo "</table><button type=\"submit\" name=\"submit\">Rekod</button>";
-            echo "<p id=\"important_msg\"><b>NOTE</b>: Perekodan kehadiran hanya boleh dilakukan <b>SEKALI</b> sahaja<br> untuk setiap program. Sila semak semula sebelum merekod.</p>";
-            echo "<div class=\"seekAttendance\"><a href=\"main_page.php\">Menu Utama</a></div>";
+            else {
+                echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
+                echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
+            }
         }
         else {
-            echo "<div><img alt=\"Data Tidak Wujud\" src=\"style/image/not-found-students.png\">";
-            echo "<h1>Perekodan Tidak Boleh Dilakukan, Tiada Murid Yang Menyertai</h1></div>";
+            echo "<div><img alt=\"Bukan Guru Pengurus\" src=\"style/image/not-involved.png\">";
+            echo "<h1>Anda tidak terlibat dengan pengurusan program ini</h1></div>";
         }
     }
 
     // to save record, use once only for each program
     function saverecord($DB, $nokp, $noic) { // return function
         // Generate 7 letter code with 'p' as a prefix at front
-        $randC = $this->randCode("k");
+        $randC = "";
+        // to check if this code is avaliable to use
+        $checkRandC = true;
+        // this code was added to add safety while inserting data to avoid violating data integrity
+        while($checkRandC) {
+            $randC = $this -> randCode("k");
+            $MYSQL_checkRandC = mysqli_query($DB, "SELECT kodKehadiran FROM kehadiran WHERE kodKehadiran = '$randC'");
+
+            // check if the query return a result of row
+            if(mysqli_fetch_row($MYSQL_checkRandC)) {
+                $randC = $this -> randCode("k");
+            }
+            else {
+                // quit from checking
+                $checkRandC = false;
+            }
+        }
 
         // Get program code from checkProgram function
-        $program = $this->checkProgram($DB, $nokp)['kodProgram'];
+        $program = $this -> checkProgram($DB, $nokp)['kodProgram'];
 
         // Check if program is valid
-        if ($program === false) {
+        if($program === false) {
             return false;
         }
 
         // Prepare the SQL statement
-        $stmt = $DB->prepare("INSERT INTO kehadiran(kodKehadiran, kodProgram, noic, masa_direkod) VALUES (?, ?, ?, CURTIME())");
-        $stmt->bind_param("sss", $randC, $program, $noic);
+        $stmt = $DB -> prepare("INSERT INTO kehadiran (kodKehadiran, kodProgram, noic, masa_direkod) VALUES (?, ?, ?, CURTIME())");
+        $stmt -> bind_param("sss", $randC, $program, $noic);
 
         // Execute the statement and check if successful
-        if ($stmt->execute()) {
+        if ($stmt -> execute()) {
             $stmt -> close();
             return [
                 'noic' => $noic,
@@ -523,29 +566,49 @@ class globalFunc {
         }
     }
 
+    // check if user is eligible to edit Kehadiran record
+    function checkDeletionEligibility($DB, $v, $vv) {
+        // nokp is pass on the second argument, $v
+        // kodProgram is pass on the second argument, $vv
+        // check user egibility to delete record
+        $checkRowDeletionEgibility = mysqli_query($DB, "SELECT * FROM program WHERE nokp = '$v' AND kodProgram = '$vv'");
+
+        // check if user has any relation with selected program
+        if($checkRowDeletionEgibility -> num_rows > 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     // only gives you a list of student's data that has attend on this(refer to given kodKehadiran) program
     // student(s) who not attend will not included inside the array
     function findStudent($DB, $v, $vv) { // return function
-        // Prepare the kehadiran query
-        $stmtKehadiran = $DB->prepare("SELECT noic, masa_direkod FROM kehadiran WHERE kodProgram = ?");
-        $stmtKehadiran->bind_param("s", $v);
-        $stmtKehadiran->execute();
-        $kehadiranResult = $stmtKehadiran->get_result();
+        // kodKehadiran is pass on the second argument, $v
+        // kelas is pass on the second argument, $vv
+
+        // prepare the kehadiran query
+        $stmtKehadiran = $DB -> prepare("SELECT noic, masa_direkod FROM kehadiran WHERE kodProgram = ?");
+        $stmtKehadiran -> bind_param("s", $v);
+        $stmtKehadiran -> execute();
+        $kehadiranResult = $stmtKehadiran -> get_result();
     
         $students = [];
     
-        if ($kehadiranResult->num_rows > 0) {
+        if($kehadiranResult -> num_rows > 0) {
             // For each attendance record, get the student details
-            while ($valKehadiran = $kehadiranResult->fetch_assoc()) {
+            while($valKehadiran = $kehadiranResult -> fetch_assoc()) {
                 $noic = $valKehadiran['noic'];
     
-                $stmtMurid = $DB->prepare("SELECT * FROM murid WHERE kelas = ? AND noic = ?");
-                $stmtMurid->bind_param("ss", $vv, $noic);
-                $stmtMurid->execute();
-                $muridResult = $stmtMurid->get_result();
+                $stmtMurid = $DB -> prepare("SELECT * FROM murid WHERE kelas = ? AND noic = ?");
+                $stmtMurid -> bind_param("ss", $vv, $noic);
+                $stmtMurid -> execute();
+                $muridResult = $stmtMurid -> get_result();
     
-                if ($muridResult->num_rows > 0) {
-                    while ($valMurid = $muridResult->fetch_assoc()) {
+                if($muridResult -> num_rows > 0) {
+                    while($valMurid = $muridResult -> fetch_assoc()) {
+                        // return true on match_user_nokp if nokp given is match with the program's nokp column and vice versa
                         $students[] = [
                             'noic' => $valMurid['noic'],
                             'nama' => $valMurid['nama'],
@@ -555,7 +618,8 @@ class globalFunc {
                     }
                 }
             }
-        } else {
+        }
+        else {
             return false;
         }
         mysqli_stmt_close($stmtMurid);
@@ -567,18 +631,22 @@ class globalFunc {
     function checkExistKehadiran($DB, $v, $vv) { // return function
         // kodKehadiran value is passed through the second argument, $v
         // kelas value is passed through the third argument, $vv
+
+        // obtain the list of murid's noic by finding kelas name
         $array[] = $this->murid($DB, NULL, $vv, 'NOIC');
         foreach($array as $x) {
             $result = mysqli_query($DB, "SELECT kodProgram FROM kehadiran WHERE kodProgram = '$v' AND noic = '".$x[0]."'");
 
             if(mysqli_num_rows($result) === 0) {
+                // false return will allow record.php to display form
                 return false;
             }
         }
+        // true return will tell the user that record has been done
         return true;
     }
 
-    // to add new murid, program or guru into database
+    // to add or delete murid, program or guru into database
     function fromDB($DB, $a, $s) { // return function
         if ($s === 'PROGRAM') {
             $randCode = $this->randCode('p');
@@ -603,7 +671,7 @@ class globalFunc {
                 return false;
             }
         } 
-        elseif ($s === 'MURID') {
+        elseif($s === 'MURID') {
             $stmt = $DB->prepare("INSERT INTO murid (noic, nama, jantina, kelas) VALUES (?, ?, ?, ?)");
             $stmt->bind_param(
                 "ssss",
@@ -622,7 +690,7 @@ class globalFunc {
                 return false;
             }
         }
-        elseif ($s === 'GURU') {
+        elseif($s === 'GURU') {
             $stmt = $DB->prepare("INSERT INTO guru (nokp, katalaluan, nama_guru, jantina, guru_matapelajaran, aras)
              VALUES (?, ?, ?, ?, ?, 'PENGGUNA')"); // set aras as PENGGUNA by default
             $stmt->bind_param(
@@ -643,7 +711,7 @@ class globalFunc {
                 return false;
             }
         }
-        elseif($s === 'DELETE') {
+        elseif($s === 'DELETE_PROGRAM') {
             // rows from kehadiran must be deleted first before deleting program inside program table
             // delete every related rows on kehadiran table, then delete program
             $deleteRows = mysqli_prepare($DB, "DELETE FROM `kehadiran` WHERE kodProgram = ?");
@@ -663,30 +731,40 @@ class globalFunc {
                 }
             }
         }
-        elseif ($s === 'DELETE_ROW') {
+        elseif($s === 'DELETE_ROW') {
             if ($a['switch'] === 'GURU') {
-                $stmt = mysqli_prepare($DB, "DELETE FROM guru WHERE nokp = ?");
+                // get kodProgram to delete kehadiran's row
+                $kodProgram_MYSQL = mysqli_query($DB, "SELECT kodProgram FROM program WHERE nokp = '" . $a['nokp'] . "'");
+                $kodProgram = mysqli_fetch_assoc($kodProgram_MYSQL);
+
+                // delete kehadiran rows using nokp attribute
+                $stmt = $DB -> prepare("DELETE FROM guru WHERE nokp = ?");
                 mysqli_stmt_bind_param($stmt, "s", $a['nokp']);
+                $deleteRows = $DB -> prepare("DELETE FROM kehadiran WHERE kodProgram = ?");
+                mysqli_stmt_bind_param($deleteRows, "s", $kodProgram);
             }
             else {
-                // FOR $deleteRows
-                // this one is important to maintain data integrity
-                // row that are related to selected noic will be deleted.
-                // then selected murid will be deleted
-                $deleteRows = $DB -> prepare("DELETE FROM kehadiran WHERE noic = ?");
+                // delete kehadiran rows using noic attribute
                 $stmt = $DB -> prepare("DELETE FROM murid WHERE noic = ?");
-                mysqli_stmt_bind_param($deleteRows, "s", $a['noic']);
                 mysqli_stmt_bind_param($stmt, "s", $a['noic']);
-
-                // delete program rows
-                if($deleteRows -> execute()) {
-                    $deleteRows -> close();
-                }
-                else {
-                    return false;
-                }
+                $deleteRows = $DB -> prepare("DELETE FROM kehadiran WHERE noic = ?");
+                mysqli_stmt_bind_param($deleteRows, "s", $a['noic']);
             }
             
+            // FOR $deleteRows
+            // this one is important to maintain data integrity
+            // row that are related to selected noic will be deleted.
+            // then selected murid will be deleted
+
+            // delete program rows
+            if($deleteRows -> execute()) {
+                $deleteRows -> close();
+            }
+            else {
+                return false;
+            }
+
+            // execute row deletion
             if($stmt->execute()) {
                 $stmt->close(); // Fixed method call
                 return true;
@@ -708,9 +786,9 @@ class globalFunc {
             else {
                 return false;
             }
-
         }
         elseif ($s === 'EDIT_MURID') {
+            // switch case is just impossible to use for this specific condition
             $update_query_clause = [];
             $params = [];
             $types = '';
@@ -781,6 +859,7 @@ class globalFunc {
             }
         }
         elseif ($s === 'EDIT_GURU') {
+            // switch case is just impossible to use for this specific condition
             $update_query_clause = [];
             $params = [];
             $types = '';

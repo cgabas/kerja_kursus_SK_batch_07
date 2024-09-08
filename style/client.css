@@ -962,6 +962,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
     font-family: roboC-bold;
 }
 
+#notice {
+    color: orange;
+    font-family: roboC-bold;
+}
+
 #subtitle {
     font-family: roboC-bold;
     font-size: larger;

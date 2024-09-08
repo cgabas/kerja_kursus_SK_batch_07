@@ -76,11 +76,12 @@ $program = isset($_POST['searchNama']) ? $_POST['searchNama'] : NULL;
             </div>
             <table>
             <?php
-            // Fetch and display programs based on user rank
-            if ($aras === 'ADMIN') {
-                $func->program($cDB, ['searchNama' => $program, 'date' => $date], true);
-            } else {
-                $func->program($cDB, ['searchNama' => $program, 'date' => $date], false);
+            // Fetch and display programs base on user rank
+            if($aras === 'ADMIN') {
+                $func -> program($cDB, ['searchNama' => $program, 'date' => $date], true);
+            }
+            else {
+                $func -> program($cDB, ['searchNama' => $program, 'date' => $date], false);
             }
             ?>
             </table>
