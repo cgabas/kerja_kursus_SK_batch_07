@@ -482,7 +482,7 @@ class globalFunc {
     /*
         displays a form with a list of students that can be
         checked by the teacher by using a checkbox
-        */
+    */
     function recordForm($DB, $v, $vv) { // return/procedure function
         // nokp data or array passed through the second argument, $v
         // kelas data passed through the third argument, $vv. Give NULL if not require
@@ -989,7 +989,7 @@ class globalFunc {
                 return false;
             }
         }        
-        elseif($s === "TXT") { //*
+        elseif($s === "TXT") {
             $uploadDir = "uploads/";
         
             // check directory exsistance
