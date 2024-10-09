@@ -29,23 +29,23 @@
                 <table>
                     <tr>
                         <td><label for="name">Nama Murid: </label></td>
-                        <td><input type="text" name="name" id="name" placeholder="Cth: `Ali`, `Abu`"></td>
+                        <td><input type="text" name="name" id="name" placeholder="Cth: `Ali`, `Abu`" required autofocus></td>
                     </tr>
                     <tr>
                         <td><label for="KP">Nombor Kad Pengenalan: </label></td>
-                        <td><input type="text" name="KP" id="KP" placeholder="Cth: `060604010001`" maxlength="12"></td>
+                        <td><input type="text" name="KP" id="KP" placeholder="Cth: `060604010001`" maxlength="12" required></td>
                     </tr>
                     <tr>
                         <td><label for="gender">Jantina: </label></td>
                         <td>
-                            <input type="radio" name="gender" id="gender" value="L">Lelaki
+                            <input type="radio" name="gender" id="gender" value="L" required>Lelaki
                             <input type="radio" name="gender" id="gender" value="P">Perempuan
                         </td>
                     </tr>
                     <tr>
                         <td><label for="kelas">Kelas: </label></td>
                         <td>
-                            <select name="kelas" id="kelas">
+                            <select name="kelas" id="kelas" required>
                                 <?php
                                     foreach(globalFunc::kelas as $x) {
                                         echo "<option value=\"$x\">$x</option>";

@@ -56,9 +56,9 @@ class globalFunc {
     ];
     // generate random 7 letters code with some prefix you can add
     function randCode($pf) { // return function
-        $randBytes = random_bytes(3); // generate 3 bytes of random code
+        $randBytes = random_bytes(3); // gen     erate 3 bytes of random code
         $convert2Hex = bin2hex($randBytes); // convert it to hexadecimal which becomes 6 character
-        return $pf . $convert2Hex; // combine it with the given prefix from given argument when returning values
+        return "$pf$convert2Hex"; // combine it with the given prefix from given argument when returning values
     }
 
     // find guru's name by their nokp
@@ -989,7 +989,7 @@ class globalFunc {
                 return false;
             }
         }        
-        elseif($s === "TXT") {
+        elseif($s === "TXT") { // based on it's name, it actually can import both csv and txt as long as the import data is correct
             $uploadDir = "uploads/";
         
             // check directory exsistance
