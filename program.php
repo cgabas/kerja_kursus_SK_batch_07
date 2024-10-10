@@ -2,22 +2,17 @@
 require_once "config/config.php";
 require_once "config/functions.php";
 
-// Start session and access variable
+// start session and access variable
 session_start();
-if (isset($_SESSION['aras'])) {
-    $aras = $_SESSION['aras'];
-}
-else {
-    // Handle the case where 'aras' is not set in session
-    $aras = 'GUEST'; // Default value or redirect to login
-}
+$aras = $_SESSION['aras'] ?? 'GUEST';
+
 session_write_close();
 
 $func = new globalFunc;
 
-// Handle form submissions
-$date = isset($_POST['searchDate']) ? $_POST['searchDate'] : NULL;
-$program = isset($_POST['searchNama']) ? $_POST['searchNama'] : NULL;
+// to handle form submissions
+$date = $_POST['searchDate'] ?? NULL;
+$program = $_POST['searchNama'] ?? NULL;
 
 ?>
 <!DOCTYPE html>

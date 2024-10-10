@@ -343,7 +343,8 @@ nav div h4 {
 .program div img {
     background-image: var(--img-bg);
 }
-.program form:nth-child(3) {
+/* for search box in program.php */
+.program #search {
     background-color: var(--G3);
     padding: 10px;
     border-radius: 15px;
@@ -352,13 +353,13 @@ nav div h4 {
     align-items: center;
     flex-direction: column;
 }
-.program form:nth-child(3) div {
+.program #search div {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     margin: 10px 0 0 0;
 }
-.program form:nth-child(3) div input:nth-child(1) {
+.program #search div input:nth-child(1) {
     color: white;
     text-align: center;
     outline: none;
@@ -368,7 +369,7 @@ nav div h4 {
     border-radius: 10px 0 0 10px;
     background-color: var(--G1);
 }
-.program form:nth-child(3) div input:nth-child(2) {
+.program #search div input:nth-child(2) {
     color: white;
     background-color: var(--G1);
     padding: 10px;
@@ -383,7 +384,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
     padding: 0;
     background-image: url("image/calendar.svg");
 }
-.program form:nth-child(3) div button {
+.program #search div button {
     background-color: var(--G2);
     color: white;
     font-family: roboC;
@@ -394,10 +395,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
     display: flex;
     align-items: center;
 }
-.program form:nth-child(3) button img {
+.program #search button img {
     width: 15px;
 }
-.program form:nth-child(3) button p {
+.program #search button p {
     margin: 0;
     padding: 0;
 }

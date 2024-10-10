@@ -101,6 +101,15 @@ const callFunc = {
         // display datetime
         date.textContent = "Tarikh: " + dateString + " 📆";
         time.textContent = "Masa: " + timeString + " " +clockAnima;
+    },
+
+    logoutPrompt: function() {
+        // ask user before logout
+        var isLogoutTrue = confirm('Adakah anda ingin log keluar daripada system?');
+
+        if(isLogoutTrue) {
+            window.location='logout.php';
+        }
     }
 };
 

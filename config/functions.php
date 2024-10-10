@@ -145,16 +145,12 @@ class globalFunc {
         to check and display today's avaliable program that is
         matching the current date and will be display at the
         main page(both user and admin)
-        */
+    */
     function todaysProgram($DB, $s) { // procedure function
         // $s argument is for switch
         $curDate = date("Y-m-d");
-        if($s) {
-            $result = mysqli_query($DB, "SELECT * FROM program");
-        }
-        else {
-            $result = mysqli_query($DB, "SELECT * FROM program WHERE tarikh='$curDate'");
-        }
+        $query = $s ? "SELECT * FROM program" : "SELECT * FROM program WHERE tarikh='$curDate'";
+        $result = mysqli_query($DB, $query);
         
         if(mysqli_num_rows($result) > 0) {
             echo "<h2>Program Hari Ini</h2>";
@@ -447,7 +443,7 @@ class globalFunc {
         end_time attributes with logic like this:
         currentTime is greater than or equal to start_time 
         and currentTime is less than end_time
-        */
+    */
     function checkProgram($DB, $v) { // procedure function
         // only select program that avaliable on current time and date by checking if masa_mula and masa_tamat is in range of current time
         $query = "SELECT * 
@@ -635,7 +631,7 @@ class globalFunc {
         // obtain the list of murid's noic by finding kelas name
         $array[] = $this->murid($DB, NULL, $vv, 'NOIC');
         foreach($array as $x) {
-            $result = mysqli_query($DB, "SELECT kodProgram FROM kehadiran WHERE kodProgram = '$v' AND noic = '".$x[0]."'");
+            $result = mysqli_query($DB, "SELECT kodProgram FROM kehadiran WHERE kodProgram = '$v' AND noic = '{$x[0]}'");
 
             if(mysqli_num_rows($result) === 0) {
                 // false return will allow record.php to display form
@@ -821,7 +817,7 @@ class globalFunc {
             if (!empty($update_query_clause)) {
                 $old_noic = $a['noic_for_refe'];
                 if ($old_noic === NULL) {
-                    echo "<script>alert('No reference noic provided.');</script>";
+                    echo "<script>alert('[RALAT SISTEM]: Rujukan kepada noic tidak diberikan.');</script>";
                     return false;
                 }
                 $params[] = $old_noic;
@@ -833,7 +829,7 @@ class globalFunc {
                 $stmt = $DB->prepare($query);
         
                 if (!$stmt) {
-                    echo "<script>alert('Prepare failed: " . $DB->error . "'); </script>";
+                    echo "<script>alert('[RALAT SISTEM]: Tidak dapat menyediakan query\\n[MESEJ RALAT]: $DB->error'); </script>";
                     return false;
                 }
         
@@ -841,7 +837,7 @@ class globalFunc {
                 $stmt->bind_param($types, ...$params);
         
                 if ($stmt->errno) {
-                    echo "<script>alert('Bind failed: " . $stmt->error . "'); </script>";
+                    echo "<script>alert('[RALAT SISTEM]: Gagal untuk menggabungkan data dalam query\\n[MESEJ RALAT]: $stmt->error'); </script>";
                     return false;
                 }
         
@@ -906,14 +902,14 @@ class globalFunc {
                 $stmt = $DB->prepare($query);
         
                 if (!$stmt) {
-                    echo "<script>alert('Prepare failed: " . $DB->error . "');</script>";
+                    echo "<script>alert('[RALAT SISTEM]: Penyediaan query gagal\\n[MESEJ RALAT]: $DB->error');</script>";
                     return false;
                 }
         
                 $stmt->bind_param($types, ...$params);
         
                 if ($stmt->errno) {
-                    echo "<script>alert('Bind failed: " . $stmt->error . "');</script>";
+                    echo "<script>alert('[RALAT SISTEM]: Penggabungan data gagal\\n[MESEJ RALAT]: $stmt->error');</script>";
                     return false;
                 }
         
@@ -921,7 +917,7 @@ class globalFunc {
                     return true;
                 }
                 else {
-                    echo "<script>alert('Execute failed: " . $stmt->error . "');</script>";
+                    echo "<script>alert('[RALAT SISTEM]: Tidak dapat menjalankan query\\n[MESEJ RALAT]: $stmt->error');</script>";
                     return false;
                 }
             }

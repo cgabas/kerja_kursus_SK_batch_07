@@ -11,5 +11,8 @@
         </a>
     </div>
     <button onclick="window.location='program.php'">Senarai Program</button>
-    <button onclick="window.location='logout.php'">Log Keluar</button>
+    <button onclick="callFunc.logoutPrompt()">Log Keluar</button>
 </nav>
+<script type="module" src="library/progIntervensi-lib.js">
+    import { callFunc } from "./library/progIntervensi.js";
+</script>
