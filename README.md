@@ -120,7 +120,6 @@ __English__: This system with the name "__Intervention Program System__" can rec
 > With XAMPP running, This system should be working as long as the MySQL(_For the database_) and Apache(_To run the system itself_) is turn on.
 
 > [!NOTE]
-
 > If you recieved an error when you about to launch the system page, please consider to:
 > 1. Update your PHP version since there is some new version library in that system that required a new version of PHP. Visit back `https://www.apachefriends.org/download.html` where you downloaded XAMPP in the first place and install the XAMPP that has PHP 8.1.x version and above.
 > 2. Please refer to online resource to help you with any error that occur during system import.
